@@ -1,4 +1,4 @@
-import {FilmCardProps} from './components/film-card/film-card';
+import {FilmCardProps} from './film-card';
 
 export const filmCards : FilmCardProps[] = [
   { posterAlt: 'Fantastic Beasts: The Crimes of Grindelwald',
