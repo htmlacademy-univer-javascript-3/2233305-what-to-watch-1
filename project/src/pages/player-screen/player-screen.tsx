@@ -4,10 +4,10 @@ import {FilmsProps} from '../../types/types';
 function PlayerScreen({films}:FilmsProps): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
-  const film = films.filter((x) => x.id === params.id)[0];
+  const currentFilm = films.find((film) => film.id === params.id);
   return (
     <div className="player">
-      <video src={film.videoLink} className="player__video" poster={film.imageSrc}/>
+      <video src={currentFilm?.videoLink} className="player__video" poster={currentFilm?.imageSrc}/>
 
       <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
 

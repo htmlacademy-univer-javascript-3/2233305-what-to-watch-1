@@ -1,23 +1,22 @@
 import {Link} from 'react-router-dom';
-import {films} from '../../../mocks/film';
+import VideoPlayer from '../../video-player/video-player';
+import {FilmProps} from '../../../types/types';
 
-export type FilmCardProps = {
-  posterAlt: string;
-  posterSrc: string;
-  name: string;
+export type FilmCardProps = FilmProps & {
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  onClick? : () => void;
 }
 
-function FilmCard({posterAlt, posterSrc, name}: FilmCardProps): JSX.Element {
-  const film = films.filter((x) => x.name === name)[0];
+function FilmCard({film, onMouseLeave, onMouseEnter, onClick}: FilmCardProps): JSX.Element {
+
   return (
-    <>
-      <div className="small-film-card__image">
-        <img src={posterSrc} alt={posterAlt} width='280' height='175'/>
-      </div>
+    <article className="small-film-card catalog__films-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onClick}>
+      <VideoPlayer previewVideoLink={film.previewVideoLink} posterSrc={film.posterSrc}/>
       <h3 className="small-film-card__title">
-        <Link to={`/film/${film.id}`} className="small-film-card__link">{name}</Link>
+        <Link to={`/film/${film.id}`} className="small-film-card__link">{film.name}</Link>
       </h3>
-    </>
+    </article>
   );
 }
 

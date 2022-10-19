@@ -6,13 +6,13 @@ import {myListFilmsCount} from '../../mocks/const';
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
-  const film = films.filter((x) => x.id === params.id)[0];
+  const currentFilm = films.find((film) => film.id === params.id);
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.imageSrc} alt={film.imageAlt}/>
+            <img src={currentFilm?.imageSrc} alt={currentFilm?.imageAlt}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -34,10 +34,10 @@ function MoviePageScreen(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{currentFilm?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.year}</span>
+                <span className="film-card__genre">{currentFilm?.genre}</span>
+                <span className="film-card__year">{currentFilm?.year}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -54,7 +54,7 @@ function MoviePageScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">{myListFilmsCount}</span>
                 </button>
-                <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
+                <Link to={`/films/${currentFilm?.id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@ function MoviePageScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.posterSrc} alt={film.posterAlt}
+              <img src={currentFilm?.posterSrc} alt={currentFilm?.posterAlt}
                 width="218" height="327"
               />
             </div>
@@ -75,26 +75,26 @@ function MoviePageScreen(): JSX.Element {
                     <a href="#" className="film-nav__link">Overview</a>
                   </li>
                   <li className="film-nav__item">
-                    <Link to={`/films/${film.id}/details`} className="film-nav__link">Details</Link>
+                    <Link to={`/films/${currentFilm?.id}/details`} className="film-nav__link">Details</Link>
                   </li>
                   <li className="film-nav__item">
-                    <Link to={`/films/${film.id}/reviews`} className="film-nav__link">Reviews</Link>
+                    <Link to={`/films/${currentFilm?.id}/reviews`} className="film-nav__link">Reviews</Link>
                   </li>
                 </ul>
               </nav>
 
               <div className="film-rating">
-                <div className="film-rating__score">{film.rating}</div>
+                <div className="film-rating__score">{currentFilm?.rating}</div>
                 <p className="film-rating__meta">
-                  <span className="film-rating__level">{film.ratingLevel}</span>
-                  <span className="film-rating__count">{film.ratingCount}</span>
+                  <span className="film-rating__level">{currentFilm?.ratingLevel}</span>
+                  <span className="film-rating__count">{currentFilm?.ratingCount}</span>
                 </p>
               </div>
 
-              <div className="film-card__text">{film.description}
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
+              <div className="film-card__text">{currentFilm?.description}
+                <p className="film-card__director"><strong>Director: {currentFilm?.director}</strong></p>
 
-                <p className="film-card__starring"><strong>Starring: {film.starring}</strong></p>
+                <p className="film-card__starring"><strong>Starring: {currentFilm?.starring}</strong></p>
               </div>
             </div>
           </div>

@@ -29,7 +29,7 @@ function MyListScreen({films}: FilmsProps): JSX.Element {
         <div className="catalog__films-list">
           {films.map((film) => (
             <article className="small-film-card catalog__films-card" key={film.id}>
-              <FilmCard posterAlt={film.imageAlt} posterSrc={film.imageSrc} name={film.name}/>
+              <FilmCard film={film}/>
             </article>
           ))}
         </div>
