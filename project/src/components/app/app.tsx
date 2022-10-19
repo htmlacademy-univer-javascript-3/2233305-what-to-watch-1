@@ -9,7 +9,6 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute, {AuthorizationStatus} from '../private-routes/private-route';
 import {FilmsProps} from '../../types/types';
 import {myListFilms, myListFilmsCount} from '../../mocks/const';
-import MovieDetails from '../movie-page/movie-details';
 
 function App({films}: FilmsProps): JSX.Element {
   return (
@@ -20,7 +19,6 @@ function App({films}: FilmsProps): JSX.Element {
         <Route path='/films/:id' element={<MoviePageScreen/>}/>
         <Route path='/films/:id/review' element={<AddReviewScreen film={films[0]}/>}/>
         <Route path='/player/:id' element={<PlayerScreen films={films}/>}/>
-        <Route path='/films/:id/details' element={<MovieDetails films={films}/>}/>
         <Route path='*' element={<NotFound/>}/>
         <Route
           path='/mylist'
