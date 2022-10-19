@@ -3,9 +3,9 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {catalogGenresData} from '../../components/main/catalog-genres/catalog-genres-data';
 import CatalogGenres from '../../components/main/catalog-genres/catalog-genres';
-import {Film} from '../../mocks/film';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
+import {Film} from '../../types/types';
 
 type MainScreenProps= {
   previewFilm : Film,
@@ -15,7 +15,7 @@ type MainScreenProps= {
 
 function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): JSX.Element {
   const navigate = useNavigate();
-  const [movie, setEnter] = useState<Film | null>(null);
+  const [, setEnter] = useState<Film | null>(null);
   return (
     <>
       <section className="film-card">
@@ -86,11 +86,9 @@ function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): J
 
           <div className="catalog__films-list">
             {films.map((film) => (
-              <article className="small-film-card catalog__films-card" key={film.id} onMouseEnter={() => {setEnter(film);}}
+              <FilmCard key={film.id} film={film} onMouseEnter={() => {setEnter(film);}}
                 onMouseLeave={() => setEnter(null)} onClick={() => navigate(`/films/${film.id}`)}
-              >
-                <FilmCard posterAlt={film.imageAlt} posterSrc={film.imageSrc} name={film.name}/>
-              </article>))}
+              />))}
           </div>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
