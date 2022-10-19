@@ -1,3 +1,5 @@
+import {myListFilmsCount} from '../../mocks/const';
+
 function MovieInList(): JSX.Element {
   return (
     <button className="btn btn--list film-card__button" type="button">
@@ -5,7 +7,7 @@ function MovieInList(): JSX.Element {
         <use xlinkHref="#in-list"/>
       </svg>
       <span>My list</span>
-      <span className="film-card__count">9</span>
+      <span className="film-card__count">{myListFilmsCount}</span>
     </button>
   );
 }

@@ -18,12 +18,12 @@ function VideoPlayer({previewVideoLink, posterSrc} : VideoPlayerProps): JSX.Elem
 
     videoRef.current.addEventListener('loadeddata', () => setIsLoading(false));
 
-    if (isPlaying) {
+    if (!isPlaying) {
+      videoRef.current.load();
+    } else {
       const timer = setTimeout(() => videoRef.current?.play(), 1000);
       return () => clearTimeout(timer);
     }
-
-    videoRef.current?.load();
 
   }, [isPlaying]);
 

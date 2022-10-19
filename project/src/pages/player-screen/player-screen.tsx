@@ -1,10 +1,14 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import {FilmsProps} from '../../types/types';
+import NotFound from '../not-found/not-found';
 
 function PlayerScreen({films}:FilmsProps): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
   const currentFilm = films.find((film) => film.id === params.id);
+  if (currentFilm === undefined) {
+    return <NotFound/>;
+  }
   return (
     <div className="player">
       <video src={currentFilm?.videoLink} className="player__video" poster={currentFilm?.imageSrc}/>
