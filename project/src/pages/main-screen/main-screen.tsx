@@ -1,11 +1,11 @@
 import FilmCard from '../../components/main/film-card/film-card';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {catalogGenresData} from '../../components/main/catalog-genres/catalog-genres-data';
 import CatalogGenres from '../../components/main/catalog-genres/catalog-genres';
 import {useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import {Film} from '../../types/types';
+import {useAppSelector} from '../../hooks';
 
 type MainScreenProps= {
   previewFilm : Film,
@@ -15,6 +15,7 @@ type MainScreenProps= {
 
 function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): JSX.Element {
   const navigate = useNavigate();
+  const {genre, filmsGenre} = useAppSelector((state) => state);
   const [, setEnter] = useState<Film | null>(null);
   return (
     <>
@@ -76,16 +77,9 @@ function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): J
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            {catalogGenresData.map((item) => (<CatalogGenres key={item} genre={item}/>))}
-          </ul>
-
+          <CatalogGenres step={genre}/>
           <div className="catalog__films-list">
-            {films.map((film) => (
+            {filmsGenre.map((film) => (
               <FilmCard key={film.id} film={film} onMouseEnter={() => {setEnter(film);}}
                 onMouseLeave={() => setEnter(null)} onClick={() => navigate(`/films/${film.id}`)}
               />))}
