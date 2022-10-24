@@ -2,10 +2,11 @@ import FilmCard from '../../components/main/film-card/film-card';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import CatalogGenres from '../../components/main/catalog-genres/catalog-genres';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import {Film} from '../../types/types';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {resetFilmsCount, showMore,} from '../../store/action';
 
 type MainScreenProps= {
   previewFilm : Film,
@@ -15,7 +16,8 @@ type MainScreenProps= {
 
 function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): JSX.Element {
   const navigate = useNavigate();
-  const {genre, filmsGenre} = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const {genre, filmsGenre, filmsCount} = useAppSelector((state) => state);
   const [, setEnter] = useState<Film | null>(null);
   return (
     <>
@@ -57,17 +59,17 @@ function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): J
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${previewFilm.id}`)}>
+                <Link to={`/player/${previewFilm.id}`} className="btn btn--play film-card__button" type="button" onClick={() => {dispatch(resetFilmsCount());}}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                   </svg>
                   <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button" onClick={() => navigate('/mylist')}>
+                </Link>
+                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button" onClick={() => {dispatch(resetFilmsCount());}}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                   </svg>
                   <span>My list</span>
                   <span className="film-card__count">{myListFilmsCount}</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -77,15 +79,15 @@ function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): J
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <CatalogGenres step={genre}/>
+          <CatalogGenres genre={genre}/>
           <div className="catalog__films-list">
-            {filmsGenre.map((film) => (
+            {filmsGenre.slice(0, filmsCount).map((film) => (
               <FilmCard key={film.id} film={film} onMouseEnter={() => {setEnter(film);}}
-                onMouseLeave={() => setEnter(null)} onClick={() => navigate(`/films/${film.id}`)}
+                onMouseLeave={() => setEnter(null)} onClick={() => {navigate(`/films/${film.id}`); dispatch(resetFilmsCount());}}
               />))}
           </div>
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            <button className="catalog__button" type="button" onClick={() => dispatch(showMore())}>Show more</button>
           </div>
         </section>
         <Footer/>
