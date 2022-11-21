@@ -1,7 +1,8 @@
 import {createAction} from '@reduxjs/toolkit';
-import {Film} from "../types/types";
+import {Film, Review, UserData} from "../types/types";
+import {AuthorizationStatus} from "../components/private-routes/private-route";
 
-export const changeGenre = createAction('films/changeGenre' ,(value) => ({
+export const changeGenre = createAction('films/changeGenre', (value) => ({
   payload: value,
 }));
 
@@ -11,34 +12,34 @@ export const showMore = createAction('films/showMoreFilms');
 
 export const resetFilmsCount = createAction('films/resetFilmsCount');
 
-export const loadFilms = createAction('data/loadFilms', (value : Film[]) => ({
+export const loadFilms = createAction('data/loadFilms', (value: Film[]) => ({
   payload: value,
 }));
 
-export const getPromo = createAction('data/getPromo', (value : Film) => ({
+export const getPromo = createAction('data/getPromo', (value: Film) => ({
   payload: value,
 }));
 
 
-export const getFavoriteFilms = createAction('data/getFavorite', (value : Film[]) => ({
+export const getFavoriteFilms = createAction('data/getFavorite', (value: Film[]) => ({
   payload: value,
 }));
 
-export const getReview = createAction('data/getReview', (value : Review[]) => ({
+export const getReview = createAction('data/getReview', (value: Review[]) => ({
+  payload: value,
+}));
+
+export const getUser = createAction('data/getUser', (value: UserData) => ({
   payload: value,
 }));
 
 
 export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
 
+export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
-export type Review = {
-    comment: string
-    date: string
-    id: number
-    rating: number
-    user: {
-      id: number
-      name: string
-    }
-}
+export const setError = createAction<string | null>('game/setError');
+
+export const redirectToRoute = createAction<string>('game/redirectToRoute');
+
+

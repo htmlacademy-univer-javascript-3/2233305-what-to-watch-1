@@ -1,4 +1,3 @@
-
 function Pause(): JSX.Element {
   return (
     <button type="button" className="player__play">

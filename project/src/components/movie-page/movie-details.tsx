@@ -1,7 +1,11 @@
-import {FilmProps} from '../../types/types';
+import {Film} from '../../types/types';
 
-function MovieDetails({film}: FilmProps): JSX.Element{
-  return(
+type FilmProps = {
+  film: Film
+}
+
+function MovieDetails({film}: FilmProps): JSX.Element {
+  return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
@@ -10,7 +14,7 @@ function MovieDetails({film}: FilmProps): JSX.Element{
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
-          <span className="film-card__details-value" >
+          <span className="film-card__details-value">
             {film.starring.map((actor) => (<>{actor}<br/></>))}
           </span>
         </p>

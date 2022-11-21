@@ -5,7 +5,7 @@ type VideoPlayerProps = {
   posterSrc: string;
 }
 
-function VideoPlayer({previewVideoLink, posterSrc} : VideoPlayerProps): JSX.Element{
+function VideoPlayer({previewVideoLink, posterSrc}: VideoPlayerProps): JSX.Element {
   const [, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -30,7 +30,7 @@ function VideoPlayer({previewVideoLink, posterSrc} : VideoPlayerProps): JSX.Elem
 
   return (
     <video src={previewVideoLink} poster={posterSrc} muted width="280" height="175" ref={videoRef}
-      onMouseEnter={() => setIsPlaying(true)} onMouseLeave={() => setIsPlaying(false)}
+           onMouseEnter={() => setIsPlaying(true)} onMouseLeave={() => setIsPlaying(false)}
     >
     </video>
   );
