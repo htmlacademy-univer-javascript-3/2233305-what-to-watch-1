@@ -1,9 +1,10 @@
-import {useAppDispatch} from '../../../hooks';
-import {catalogGenresData} from './catalog-genres-data';
+import {useAppDispatch, useAppSelector} from '../../../hooks';
 import {changeGenre, getFilms} from '../../../store/action';
 
 function CatalogGenres(props: {genre: string}): JSX.Element {
   const dispatch = useAppDispatch();
+  const {films} = useAppSelector((state) => state);
+  const catalogGenresData = ['All genres', ...new Set(films.map((x) => x.genre))]
   return (
     <ul className="catalog__genres-list">
       {catalogGenresData.map((genre) => (

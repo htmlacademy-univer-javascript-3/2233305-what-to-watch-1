@@ -1,15 +1,15 @@
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
 import {Link, useParams} from 'react-router-dom';
-import {films} from '../../mocks/film';
-import {myListFilmsCount} from '../../mocks/const';
 import Tabs from '../../components/tabs/tabs';
 import NotFound from '../not-found/not-found';
 import FilmCard from '../../components/main/film-card/film-card';
+import {useAppSelector} from "../../hooks";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
-  const currentFilm = films.find((film) => film.id === params.id);
+  const {films, favoriteFilms} = useAppSelector((state) => state);
+  const currentFilm = films.find((film) => film.id.toString() === params.id);
   if (currentFilm === undefined) {
     return (<NotFound/>);
   }
@@ -18,7 +18,7 @@ function MoviePageScreen(): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={currentFilm?.imageSrc} alt={currentFilm?.imageAlt}/>
+            <img src={currentFilm?.backgroundImage} alt={currentFilm?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -43,7 +43,7 @@ function MoviePageScreen(): JSX.Element {
               <h2 className="film-card__title">{currentFilm?.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{currentFilm?.genre}</span>
-                <span className="film-card__year">{currentFilm?.year}</span>
+                <span className="film-card__year">{currentFilm?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -58,7 +58,7 @@ function MoviePageScreen(): JSX.Element {
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{myListFilmsCount}</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
                 <Link to={`/films/${currentFilm?.id}/review`} className="btn film-card__button">Add review</Link>
               </div>
@@ -69,7 +69,7 @@ function MoviePageScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={currentFilm?.posterSrc} alt={currentFilm?.posterAlt}
+              <img src={currentFilm?.posterImage} alt={currentFilm?.name}
                 width="218" height="327"
               />
             </div>

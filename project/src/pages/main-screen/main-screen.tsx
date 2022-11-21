@@ -8,22 +8,19 @@ import {Film} from '../../types/types';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {resetFilmsCount, showMore,} from '../../store/action';
 
-type MainScreenProps= {
-  previewFilm : Film,
-  films : Film[],
-  myListFilmsCount : number
-}
 
-function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): JSX.Element {
+function MainScreen(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {genre, filmsGenre, filmsCount} = useAppSelector((state) => state);
+
+  const {genre, films, filmsCount, promoFilm, favoriteFilms, genresFilm} = useAppSelector((state) => state);
   const [, setEnter] = useState<Film | null>(null);
+  console.log(films, genre, filmsCount)
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={previewFilm.imageSrc} alt={previewFilm.imageAlt}/>
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -46,29 +43,34 @@ function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): J
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={previewFilm.posterSrc} alt={previewFilm.posterAlt}
-                width="218" height="327"
+              <img src={promoFilm?.posterImage} alt={promoFilm?.name}
+                   width="218" height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{previewFilm.name}</h2>
+              <h2 className="film-card__title">{promoFilm?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{previewFilm.genre}</span>
-                <span className="film-card__year">{previewFilm.year}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${previewFilm.id}`} className="btn btn--play film-card__button" type="button" onClick={() => {dispatch(resetFilmsCount());}}>
+                <Link to={`/player/${promoFilm?.id}`} className="btn btn--play film-card__button" type="button"
+                      onClick={() => {
+                        dispatch(resetFilmsCount());
+                      }}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button" onClick={() => {dispatch(resetFilmsCount());}}>
+                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button" onClick={() => {
+                  dispatch(resetFilmsCount());
+                }}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                   </svg>
                   <span>My list</span>
-                  <span className="film-card__count">{myListFilmsCount}</span>
+                  <span className="film-card__count">{favoriteFilms.length}</span>
                 </Link>
               </div>
             </div>
@@ -81,9 +83,14 @@ function MainScreen({previewFilm, films, myListFilmsCount} : MainScreenProps): J
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <CatalogGenres genre={genre}/>
           <div className="catalog__films-list">
-            {filmsGenre.slice(0, filmsCount).map((film) => (
-              <FilmCard key={film.id} film={film} onMouseEnter={() => {setEnter(film);}}
-                onMouseLeave={() => setEnter(null)} onClick={() => {navigate(`/films/${film.id}`); dispatch(resetFilmsCount());}}
+            {genresFilm.slice(0, filmsCount).map((film) => (
+              <FilmCard key={film.id} film={film} onMouseEnter={() => {
+                setEnter(film);
+              }}
+                        onMouseLeave={() => setEnter(null)} onClick={() => {
+                navigate(`/films/${film.id}`);
+                dispatch(resetFilmsCount());
+              }}
               />))}
           </div>
           <div className="catalog__more">

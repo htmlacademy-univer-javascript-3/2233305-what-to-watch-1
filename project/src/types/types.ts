@@ -1,24 +1,22 @@
-import {Review} from '../mocks/reviews';
 
 export type Film = {
-  id: string,
-  posterAlt: string,
-  posterSrc: string,
-  imageSrc: string,
-  imageAlt: string,
-  name: string,
-  year: number,
-  director : string,
-  starring : string[],
-  runTime : number,
-  genre : string,
-  description: string,
-  videoLink: string,
-  previewVideoLink: string,
-  rating : string,
-  ratingCount: string,
-  ratingLevel: string,
-  addMyList: boolean
+  id: number
+  name: string
+  posterImage: string
+  previewImage: string
+  backgroundImage: string
+  backgroundColor: string
+  videoLink: string
+  previewVideoLink: string
+  description: string
+  rating: number
+  scoresCount: number
+  director: string
+  starring: [string]
+  runTime: number
+  genre: string
+  released: number
+  isFavorite: boolean
 }
 
 export type FilmProps = {
@@ -30,6 +28,8 @@ export type FilmsProps = {
   films: Film[]
 }
 
+/*
 export type ReviewsProps = {
   reviews: Review[]
 }
+*/

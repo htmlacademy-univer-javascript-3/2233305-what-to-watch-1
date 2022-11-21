@@ -1,14 +1,15 @@
 import Logo from '../../components/logo/logo';
 import AddReview from '../../components/add-review/add-review';
-import {FilmProps} from '../../types/types';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from "../../hooks";
 
-function AddReviewScreen({film} : FilmProps): JSX.Element {
+function AddReviewScreen(): JSX.Element {
+  const {promoFilm} = useAppSelector((state) => state);
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.posterSrc} alt={film.posterAlt}/>
+          <img src={promoFilm?.posterImage} alt={promoFilm?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -18,7 +19,7 @@ function AddReviewScreen({film} : FilmProps): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
+                <Link to={`/films/${promoFilm?.id}`} className="breadcrumbs__link">{promoFilm?.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -39,7 +40,7 @@ function AddReviewScreen({film} : FilmProps): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.posterSrc} alt={film.posterAlt}
+          <img src={promoFilm?.posterImage} alt={promoFilm?.name}
             width="218" height="327"
           />
         </div>

@@ -12,7 +12,7 @@ function FilmCard({film, onMouseLeave, onMouseEnter, onClick}: FilmCardProps): J
 
   return (
     <article className="small-film-card catalog__films-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={onClick}>
-      <VideoPlayer previewVideoLink={film.previewVideoLink} posterSrc={film.posterSrc}/>
+      <VideoPlayer previewVideoLink={film.previewVideoLink} posterSrc={film.posterImage}/>
       <h3 className="small-film-card__title">
         <Link to={`/film/${film.id}`} className="small-film-card__link">{film.name}</Link>
       </h3>
