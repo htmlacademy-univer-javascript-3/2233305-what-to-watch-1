@@ -1,14 +1,13 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {Film} from "../types/types";
+import {AuthData, Film, Review, UserData} from "../types/types";
 import {
   getFavoriteFilms,
   getPromo,
   getReview, getUser,
   loadFilms, redirectToRoute,
   requireAuthorization,
-  Review,
   setDataLoadedStatus, setError
 } from "./action";
 import {AuthorizationStatus} from "../components/private-routes/private-route";
@@ -118,17 +117,3 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
-
-
-export type UserData = {
-    avatarUrl: string
-    email: string
-    id: number
-    name: string
-    token: string
-}
-
-export type AuthData = {
-  email: string
-  password: string
-}

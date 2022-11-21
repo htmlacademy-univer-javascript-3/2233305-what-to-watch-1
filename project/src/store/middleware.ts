@@ -1,4 +1,3 @@
-
 import {Middleware} from 'redux';
 import browserHistory from "../browser-history";
 import {reducer} from "./reducer";

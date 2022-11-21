@@ -14,10 +14,10 @@ import HistoryRouter from "../history-route/history-route";
 
 
 function App(): JSX.Element {
-  const {isDataLoaded} = useAppSelector((state) => state);
-  if (isDataLoaded) {
+  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
+  if (authorizationStatus === AuthorizationStatus.Unknown ||isDataLoaded) {
     return (
-      <LoadingScreen />
+      <LoadingScreen/>
     );
   }
   return (

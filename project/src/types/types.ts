@@ -1,4 +1,3 @@
-
 export type Film = {
   id: number
   name: string
@@ -19,17 +18,26 @@ export type Film = {
   isFavorite: boolean
 }
 
-export type FilmProps = {
-  film: Film;
-};
-
-
-export type FilmsProps = {
-  films: Film[]
+export type Review = {
+  comment: string
+  date: string
+  id: number
+  rating: number
+  user: {
+    id: number
+    name: string
+  }
 }
 
-/*
-export type ReviewsProps = {
-  reviews: Review[]
+export type UserData = {
+  avatarUrl: string
+  email: string
+  id: number
+  name: string
+  token: string
 }
-*/
+
+export type AuthData = {
+  email: string
+  password: string
+}

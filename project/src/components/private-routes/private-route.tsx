@@ -8,12 +8,12 @@ export enum AuthorizationStatus {
 }
 
 type PrivateRouteProps = {
-  children : JSX.Element;
+  children: JSX.Element;
 }
 
 
-function PrivateRoute(props: PrivateRouteProps):JSX.Element{
-  const {authorizationStatus}= useAppSelector((state) => state);
+function PrivateRoute(props: PrivateRouteProps): JSX.Element {
+  const {authorizationStatus} = useAppSelector((state) => state);
   return (
     authorizationStatus === AuthorizationStatus.Auth
       ? props.children

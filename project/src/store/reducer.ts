@@ -8,46 +8,44 @@ import {
   loadFilms,
   requireAuthorization,
   resetFilmsCount,
-  Review,
   setDataLoadedStatus, setError,
   showMore
 } from './action';
-import {Film} from "../types/types";
+import {Film, Review, UserData} from "../types/types";
 import {AuthorizationStatus} from "../components/private-routes/private-route";
-import {UserData} from "./api-actions";
 
 
 const INITIAL_STATE_GENRE = 'All genres';
 const INITIAL_STATE_FILM_COUNT = 8;
 
 
-type initalState = {
+type initialState = {
   genre: string,
   films: Film[],
   filmsCount: number,
   promoFilm: Film | null,
   favoriteFilms: Film[],
   review: Review[],
-  genresFilm : Film[],
+  genresFilm: Film[],
   isDataLoaded: boolean,
   authorizationStatus: AuthorizationStatus,
   error: string | null,
-  user : UserData | null
+  user: UserData | null
 }
 
 
-const initialState: initalState = {
+const initialState: initialState = {
   genre: INITIAL_STATE_GENRE,
   films: [],
   filmsCount: INITIAL_STATE_FILM_COUNT,
   promoFilm: null,
   favoriteFilms: [],
   review: [],
-  genresFilm : [],
+  genresFilm: [],
   isDataLoaded: false,
-  authorizationStatus : AuthorizationStatus.Unknown,
+  authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  user : null
+  user: null
 };
 
 const reducer = createReducer(initialState, (builder) => {

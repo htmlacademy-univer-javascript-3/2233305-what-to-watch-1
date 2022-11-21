@@ -2,7 +2,8 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import {FormEvent, useRef} from "react";
 import {useAppDispatch} from "../../hooks";
-import {AuthData, loginAction} from "../../store/api-actions";
+import {loginAction} from "../../store/api-actions";
+import {AuthData} from "../../types/types";
 
 function SignInScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);

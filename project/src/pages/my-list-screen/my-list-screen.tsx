@@ -2,6 +2,7 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
 import {useAppSelector} from "../../hooks";
+import User from "../../components/user/user";
 
 
 function MyListScreen(): JSX.Element {
@@ -12,16 +13,7 @@ function MyListScreen(): JSX.Element {
         <Logo/>
 
         <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <img src="../project/public/img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-            </div>
-          </li>
-          <li className="user-block__item">
-            <a className="user-block__link">Sign out</a>
-          </li>
-        </ul>
+       <User/>
       </header>
 
       <section className="catalog">

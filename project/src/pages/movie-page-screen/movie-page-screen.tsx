@@ -5,6 +5,7 @@ import Tabs from '../../components/tabs/tabs';
 import NotFound from '../not-found/not-found';
 import FilmCard from '../../components/main/film-card/film-card';
 import {useAppSelector} from "../../hooks";
+import User from "../../components/user/user";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
@@ -25,17 +26,7 @@ function MoviePageScreen(): JSX.Element {
 
           <header className="page-header film-card__head">
             <Logo/>
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <User/>
           </header>
 
           <div className="film-card__wrap">
@@ -70,7 +61,7 @@ function MoviePageScreen(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img src={currentFilm?.posterImage} alt={currentFilm?.name}
-                width="218" height="327"
+                   width="218" height="327"
               />
             </div>
             <Tabs film={currentFilm}/>
@@ -83,7 +74,8 @@ function MoviePageScreen(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
             {
-              films.filter((film) => film.genre === currentFilm.genre).slice(0,4).map((film) => <FilmCard key={film.id} film={film}/>)
+              films.filter((film) => film.genre === currentFilm.genre).slice(0, 4).map((film) => <FilmCard key={film.id}
+                                                                                                           film={film}/>)
             }
           </div>
         </section>

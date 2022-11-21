@@ -1,6 +1,10 @@
-import {FilmProps} from '../../types/types';
+import {Film} from "../../types/types";
 
-function MovieOverview({film}:FilmProps):JSX.Element{
+type FilmProps = {
+  film: Film
+}
+
+function MovieOverview({film}: FilmProps): JSX.Element {
   return (
     <>
       <div className="film-rating">
