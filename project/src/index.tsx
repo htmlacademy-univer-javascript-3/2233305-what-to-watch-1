@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app/app';
 import {store} from './store';
-import {fetchAllFilmsAction, fetchFavoriteFilmsAction, fetchPromoFilmAction, fetchReviewAction} from "./store/api-actions";
-import {getFilms} from "./store/action";
+import {
+  checkAuthAction,
+  fetchAllFilmsAction,
+  fetchFavoriteFilmsAction,
+  fetchPromoFilmAction,
+  fetchReviewAction
+} from "./store/api-actions";
+import ErrorMessage from "./components/error-message/error-message";
 
+store.dispatch(checkAuthAction());
 store.dispatch(fetchAllFilmsAction());
 store.dispatch(fetchPromoFilmAction());
 store.dispatch(fetchFavoriteFilmsAction());
@@ -18,6 +25,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
+      <ErrorMessage />
       <App/>
     </React.StrictMode>,
   </Provider>

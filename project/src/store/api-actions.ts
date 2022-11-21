@@ -2,7 +2,28 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
 import {Film} from "../types/types";
-import {getFavoriteFilms, getPromo, getReview, loadFilms, Review, setDataLoadedStatus} from "./action";
+import {
+  getFavoriteFilms,
+  getPromo,
+  getReview, getUser,
+  loadFilms, redirectToRoute,
+  requireAuthorization,
+  Review,
+  setDataLoadedStatus, setError
+} from "./action";
+import {AuthorizationStatus} from "../components/private-routes/private-route";
+import {dropToken, saveToken} from "../services/token";
+import {store} from "./index";
+
+export const clearErrorAction = createAsyncThunk(
+  'game/clearError',
+  () => {
+    setTimeout(
+      () => store.dispatch(setError(null)),
+      2000,
+    );
+  },
+);
 
 export const fetchAllFilmsAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
@@ -54,7 +75,7 @@ export const fetchReviewAction = createAsyncThunk<void, undefined, {
     dispatch(getReview(data));
   },
 );
-/*export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -62,7 +83,7 @@ export const fetchReviewAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
+      await api.get('/login');
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
@@ -76,10 +97,12 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   extra: AxiosInstance
 }>(
   'user/login',
-  async ({login: email, password}, {dispatch, extra: api}) => {
-    const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
-    saveToken(token);
+  async ({email, password}, {dispatch, extra: api}) => {
+    const {data: user} = await api.post<UserData>('/login', {email, password});
+    saveToken(user.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(getUser(user))
+    dispatch(redirectToRoute('/'));
   },
 );
 
@@ -90,8 +113,22 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   'user/logout',
   async (_arg, {dispatch, extra: api}) => {
-    await api.delete(APIRoute.Logout);
+    await api.delete('/logout');
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
-);*/
+);
+
+
+export type UserData = {
+    avatarUrl: string
+    email: string
+    id: number
+    name: string
+    token: string
+}
+
+export type AuthData = {
+  email: string
+  password: string
+}

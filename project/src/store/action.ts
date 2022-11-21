@@ -1,5 +1,7 @@
 import {createAction} from '@reduxjs/toolkit';
 import {Film} from "../types/types";
+import {AuthorizationStatus} from "../components/private-routes/private-route";
+import {UserData} from "./api-actions";
 
 export const changeGenre = createAction('films/changeGenre' ,(value) => ({
   payload: value,
@@ -28,8 +30,18 @@ export const getReview = createAction('data/getReview', (value : Review[]) => ({
   payload: value,
 }));
 
+export const getUser = createAction('data/getUser', (value : UserData) => ({
+  payload: value,
+}));
+
+
 
 export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
+
+export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+
+export const setError = createAction<string | null>('game/setError');
+export const redirectToRoute = createAction<string>('game/redirectToRoute');
 
 
 export type Review = {

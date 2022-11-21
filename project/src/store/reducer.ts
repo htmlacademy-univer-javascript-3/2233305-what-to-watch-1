@@ -4,12 +4,17 @@ import {
   getFavoriteFilms,
   getFilms,
   getPromo,
-  getReview,
+  getReview, getUser,
   loadFilms,
-  resetFilmsCount, Review, setDataLoadedStatus,
+  requireAuthorization,
+  resetFilmsCount,
+  Review,
+  setDataLoadedStatus, setError,
   showMore
 } from './action';
 import {Film} from "../types/types";
+import {AuthorizationStatus} from "../components/private-routes/private-route";
+import {UserData} from "./api-actions";
 
 
 const INITIAL_STATE_GENRE = 'All genres';
@@ -25,7 +30,9 @@ type initalState = {
   review: Review[],
   genresFilm : Film[],
   isDataLoaded: boolean,
-  //authorizationStatus: AuthorizationStatus,
+  authorizationStatus: AuthorizationStatus,
+  error: string | null,
+  user : UserData | null
 }
 
 
@@ -38,6 +45,9 @@ const initialState: initalState = {
   review: [],
   genresFilm : [],
   isDataLoaded: false,
+  authorizationStatus : AuthorizationStatus.Unknown,
+  error: null,
+  user : null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -78,6 +88,18 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setDataLoadedStatus, (state, action) => {
       state.isDataLoaded = action.payload;
     })
+  builder
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    });
+  builder
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    });
+  builder
+    .addCase(getUser, (state, action) => {
+      state.user = action.payload;
+    });
 });
 
 export {reducer};
