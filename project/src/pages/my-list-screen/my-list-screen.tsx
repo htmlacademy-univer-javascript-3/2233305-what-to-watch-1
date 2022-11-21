@@ -1,10 +1,11 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
-import {FilmsProps} from '../../types/types';
+import {useAppSelector} from "../../hooks";
 
 
-function MyListScreen({films}: FilmsProps): JSX.Element {
+function MyListScreen(): JSX.Element {
+  const {films} = useAppSelector((state) => state);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

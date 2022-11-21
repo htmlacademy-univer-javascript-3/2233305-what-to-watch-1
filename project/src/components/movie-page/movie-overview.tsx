@@ -6,8 +6,8 @@ function MovieOverview({film}:FilmProps):JSX.Element{
       <div className="film-rating">
         <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{film.ratingLevel}</span>
-          <span className="film-rating__count">{film.ratingCount}</span>
+          <span className="film-rating__level">{film.scoresCount}</span>
+          <span className="film-rating__count">{film.scoresCount}</span>
         </p>
       </div>
 
