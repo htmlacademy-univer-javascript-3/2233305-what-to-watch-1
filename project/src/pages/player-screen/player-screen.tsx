@@ -1,18 +1,21 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import NotFound from '../not-found/not-found';
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {useEffect} from "react";
+import {fetchFilmAction} from "../../store/api-actions";
 
 function PlayerScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {film} = useAppSelector((state) => state);
   const params = useParams();
   const navigate = useNavigate();
-  const currentFilm = films.find((film) => film.id.toString() === params.id);
-  if (currentFilm === undefined) {
+  const dispatch = useAppDispatch();
+  useEffect(() => {dispatch(fetchFilmAction(params.id))})
+  if (film === undefined) {
     return <NotFound/>;
   }
   return (
     <div className="player">
-      <video src={currentFilm?.videoLink} className="player__video" poster={currentFilm?.posterImage}/>
+      <video src={film?.videoLink} className="player__video" poster={film?.posterImage}/>
 
       <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
 

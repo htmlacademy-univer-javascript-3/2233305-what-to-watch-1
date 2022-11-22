@@ -15,7 +15,7 @@ function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const {genre, films, filmsCount, promoFilm, favoriteFilms, genresFilm} = useAppSelector((state) => state);
-  const [, setEnter] = useState<Film | null>(null);
+  const [,setEnter] = useState<Film | null>(null);
   console.log(films, genre, filmsCount)
   return (
     <>

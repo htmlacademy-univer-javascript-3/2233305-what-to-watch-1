@@ -1,10 +1,10 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
   changeGenre,
-  getFavoriteFilms,
+  getFavoriteFilms, getFilm,
   getFilms,
   getPromo,
-  getReview, getUser,
+  getReview, getSimilar, getUser,
   loadFilms,
   requireAuthorization,
   resetFilmsCount,
@@ -30,7 +30,9 @@ type initialState = {
   isDataLoaded: boolean,
   authorizationStatus: AuthorizationStatus,
   error: string | null,
-  user: UserData | null
+  user: UserData | null,
+  film : Film | null,
+  similarFilms: Film[]
 }
 
 
@@ -45,7 +47,9 @@ const initialState: initialState = {
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
-  user: null
+  user: null,
+  film : null,
+  similarFilms: []
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -97,6 +101,14 @@ const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(getUser, (state, action) => {
       state.user = action.payload;
+    });
+  builder
+    .addCase(getFilm, (state, action) => {
+      state.film = action.payload;
+    });
+  builder
+    .addCase(getSimilar, (state, action) => {
+      state.similarFilms = action.payload;
     });
 });
 

@@ -28,7 +28,7 @@ function App(): JSX.Element {
         <Route path='/films/:id' element={<MoviePageScreen/>}/>
         <Route path='/films/:id/review' element={<AddReviewScreen/>}/>
         <Route path='/player/:id' element={<PlayerScreen/>}/>
-        <Route path='*' element={<NotFound/>}/>
+        <Route path='notFound' element={<NotFound/>}/>
         <Route
           path='/mylist'
           element={

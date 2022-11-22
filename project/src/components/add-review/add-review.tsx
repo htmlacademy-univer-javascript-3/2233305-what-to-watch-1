@@ -1,14 +1,22 @@
-import {useState} from 'react';
+import {FormEvent, useState} from 'react';
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {fetchAddReviewAction} from "../../store/api-actions";
 
 function AddReview(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(fetchAddReviewAction({comment: rating.reviewText, filmId: film?.id, rating: rating.ratingStars}))
+  };
 
+  const {film} = useAppSelector((state) => state);
   const [rating, setRating] = useState({
     ratingStars: 8,
     reviewText: '',
   });
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form">
+      <form className="add-review__form" onSubmit={handleSubmit}>
         <div className="rating">
           <div className="rating__stars">
             {[...Array(10)].map((_, index) => (

@@ -4,14 +4,19 @@ import {Link, useParams} from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import NotFound from '../not-found/not-found';
 import FilmCard from '../../components/main/film-card/film-card';
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
+import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
+import {useEffect} from "react";
+import {AuthorizationStatus} from "../../components/private-routes/private-route";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
-  const {films, favoriteFilms} = useAppSelector((state) => state);
-  const currentFilm = films.find((film) => film.id.toString() === params.id);
-  if (currentFilm === undefined) {
+  const dispatch = useAppDispatch();
+  const {favoriteFilms, film, authorizationStatus, similarFilms} = useAppSelector((state) => state);
+  useEffect(() => {dispatch(fetchFilmAction(params.id)); dispatch(fetchGetSimilarAction(params.id))})
+
+  if (film === undefined) {
     return (<NotFound/>);
   }
   return (
@@ -19,7 +24,7 @@ function MoviePageScreen(): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={currentFilm?.backgroundImage} alt={currentFilm?.name}/>
+            <img src={film?.backgroundImage} alt={film?.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -31,10 +36,10 @@ function MoviePageScreen(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentFilm?.name}</h2>
+              <h2 className="film-card__title">{film?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentFilm?.genre}</span>
-                <span className="film-card__year">{currentFilm?.released}</span>
+                <span className="film-card__genre">{film?.genre}</span>
+                <span className="film-card__year">{film?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -51,7 +56,7 @@ function MoviePageScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
-                <Link to={`/films/${currentFilm?.id}/review`} className="btn film-card__button">Add review</Link>
+                {authorizationStatus === AuthorizationStatus.Auth ?  <Link to={`/films/${film?.id}/review`} className="btn film-card__button">Add review</Link> : null}
               </div>
             </div>
           </div>
@@ -60,11 +65,11 @@ function MoviePageScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={currentFilm?.posterImage} alt={currentFilm?.name}
+              <img src={film?.posterImage} alt={film?.name}
                    width="218" height="327"
               />
             </div>
-            <Tabs film={currentFilm}/>
+            <Tabs film={film}/>
           </div>
         </div>
       </section>
@@ -74,8 +79,7 @@ function MoviePageScreen(): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
             {
-              films.filter((film) => film.genre === currentFilm.genre).slice(0, 4).map((film) => <FilmCard key={film.id}
-                                                                                                           film={film}/>)
+              similarFilms.slice(0, 4).map((film) => <FilmCard key={film.id} film={film}/>)
             }
           </div>
         </section>
