@@ -6,13 +6,13 @@ import User from "../../components/user/user";
 
 
 function MyListScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {favoriteFilms} = useAppSelector((state) => state);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo/>
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilms.length}</span></h1>
        <User/>
       </header>
 
@@ -20,7 +20,7 @@ function MyListScreen(): JSX.Element {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__films-list">
-          {films.map((film) => (
+          {favoriteFilms.map((film) => (
             <article className="small-film-card catalog__films-card" key={film.id}>
               <FilmCard film={film}/>
             </article>

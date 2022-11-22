@@ -10,7 +10,7 @@ export enum Tab {
   Reviews = 'Reviews',
 }
 
-function checkTab(tab: string, film: Film) {
+function checkTab(tab: string, film: Film | null) {
   if (tab === Tab.Overview) {
     return <MovieOverview film={film}/>;
   }
@@ -22,7 +22,7 @@ function checkTab(tab: string, film: Film) {
   }
 }
 type FilmProps = {
-  film: Film
+  film: Film | null
 }
 
 function Tabs({film}: FilmProps): JSX.Element {
@@ -31,13 +31,13 @@ function Tabs({film}: FilmProps): JSX.Element {
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          <li className="film-nav__item film-nav__item--active">
+          <li className={`film-nav__item ${currentTab===Tab.Overview ? 'film-nav__item--active' : ''}`}>
             <a className="film-nav__link" onClick={() => setCurrentTab(Tab.Overview)}>Overview</a>
           </li>
-          <li className="film-nav__item">
+          <li className={`film-nav__item ${currentTab===Tab.Details ? 'film-nav__item--active' : ''}`}>
             <a className="film-nav__link" onClick={() => setCurrentTab(Tab.Details)}>Details</a>
           </li>
-          <li className="film-nav__item">
+          <li className={`film-nav__item ${currentTab===Tab.Reviews ? 'film-nav__item--active' : ''}`}>
             <a className="film-nav__link" onClick={() => setCurrentTab(Tab.Reviews)}>Reviews</a>
           </li>
         </ul>

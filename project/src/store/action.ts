@@ -33,12 +33,17 @@ export const getUser = createAction('data/getUser', (value: UserData) => ({
   payload: value,
 }));
 
+export const getSimilar = createAction<Film[]>('data/getSimilar');
+
 
 export const setDataLoadedStatus = createAction<boolean>('data/setDataLoadedStatus');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
 
 export const setError = createAction<string | null>('game/setError');
+
+export const getFilm = createAction<Film>('game/getFilm');
+
 
 export const redirectToRoute = createAction<string>('game/redirectToRoute');
 
