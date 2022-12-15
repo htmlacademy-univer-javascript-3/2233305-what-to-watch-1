@@ -8,9 +8,9 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
 import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
 import {useEffect} from "react";
-import {AuthorizationStatus} from "../../components/private-routes/private-route";
 import {getFavoriteFilms, getFilm, getSimilarFilms} from "../../store/films-data/selectors";
 import {getAuthorizationStatus} from "../../store/user-process/selectors";
+import {AuthorizationStatus} from "../../const";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
@@ -19,8 +19,12 @@ function MoviePageScreen(): JSX.Element {
   const film = useAppSelector(getFilm)
   const authorizationStatus = useAppSelector(getAuthorizationStatus)
   const similarFilms = useAppSelector(getSimilarFilms)
-  useEffect(() => {dispatch(fetchFilmAction(params.id)); dispatch(fetchGetSimilarAction(params.id))})
+  useEffect(() => {
+    dispatch(fetchFilmAction(params.id));
+    dispatch(fetchGetSimilarAction(params.id))
+  }, [params])
 
+  console.log(authorizationStatus)
   if (film === undefined) {
     return (<NotFound/>);
   }
@@ -29,7 +33,7 @@ function MoviePageScreen(): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film?.backgroundImage} alt={film?.name}/>
+            <img src={film.backgroundImage} alt={film.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -41,10 +45,10 @@ function MoviePageScreen(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film?.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film?.genre}</span>
-                <span className="film-card__year">{film?.released}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -61,7 +65,8 @@ function MoviePageScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
-                {authorizationStatus === AuthorizationStatus.Auth ?  <Link to={`/films/${film?.id}/review`} className="btn film-card__button">Add review</Link> : null}
+                {authorizationStatus === AuthorizationStatus.Auth ?
+                  <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link> : null}
               </div>
             </div>
           </div>
@@ -70,7 +75,7 @@ function MoviePageScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film?.posterImage} alt={film?.name}
+              <img src={film.posterImage} alt={film.name}
                    width="218" height="327"
               />
             </div>

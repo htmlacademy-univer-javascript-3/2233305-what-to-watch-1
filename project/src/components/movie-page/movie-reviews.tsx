@@ -1,14 +1,22 @@
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useEffect} from "react";
 import {fetchReviewAction} from "../../store/api-actions";
-import {getFilm, getFilms, getReviews} from "../../store/films-data/selectors";
+import {getFilm, getReviews} from "../../store/films-data/selectors";
+import NotFound from "../../pages/not-found/not-found";
 
 
 function MovieReviews(): JSX.Element {
   const film = useAppSelector(getFilm);
-  const review = useAppSelector(getReviews);
   const dispatch = useAppDispatch();
-  useEffect(() => {dispatch(fetchReviewAction(film?.id))})
+
+  if (film === undefined)
+    return <NotFound/>
+
+  useEffect(() => {
+    dispatch(fetchReviewAction(film.id))
+  }, [film])
+
+  const review = useAppSelector(getReviews);
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">

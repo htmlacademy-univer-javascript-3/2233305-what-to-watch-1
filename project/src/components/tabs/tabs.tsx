@@ -3,14 +3,10 @@ import {Film} from '../../types/types';
 import MovieOverview from '../movie-page/movie-overview';
 import MovieDetails from '../movie-page/movie-details';
 import MovieReviews from '../movie-page/movie-reviews';
+import {Tab} from "../../const";
 
-export enum Tab {
-  Overview = 'Overview',
-  Details = 'Details',
-  Reviews = 'Reviews',
-}
 
-function checkTab(tab: string, film: Film | null) {
+function checkTab(tab: string, film: Film) {
   if (tab === Tab.Overview) {
     return <MovieOverview film={film}/>;
   }
@@ -22,7 +18,7 @@ function checkTab(tab: string, film: Film | null) {
   }
 }
 type FilmProps = {
-  film: Film | null
+  film: Film
 }
 
 function Tabs({film}: FilmProps): JSX.Element {

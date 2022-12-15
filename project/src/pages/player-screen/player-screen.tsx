@@ -10,13 +10,13 @@ function PlayerScreen(): JSX.Element {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  useEffect(() => {dispatch(fetchFilmAction(params.id))})
+  useEffect(() => {dispatch(fetchFilmAction(params.id))}, [params])
   if (film === undefined) {
     return <NotFound/>;
   }
   return (
     <div className="player">
-      <video src={film?.videoLink} className="player__video" poster={film?.posterImage}/>
+      <video src={film.videoLink} className="player__video" poster={film.posterImage}/>
 
       <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
 

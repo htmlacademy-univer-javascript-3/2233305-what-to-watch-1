@@ -1,8 +1,12 @@
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import {getFavoriteFilms} from "../../store/films-data/selectors";
+import {useEffect} from "react";
+import {fetchFavoriteFilmsAction} from "../../store/api-actions";
 
 
 function MovieInList(): JSX.Element {
+  const dispatch = useAppDispatch();
+  useEffect(() => {dispatch(fetchFavoriteFilmsAction())}, [dispatch])
   const favoriteFilms = useAppSelector(getFavoriteFilms);
   return (
     <button className="btn btn--list film-card__button" type="button">
