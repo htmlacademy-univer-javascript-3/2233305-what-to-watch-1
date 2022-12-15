@@ -14,7 +14,7 @@ import {
   getGenre,
   getPromoFilm
 } from "../../store/films-data/selectors";
-import {INITIAL_STATE_GENRE} from "../../const";
+import {APIRoute, INITIAL_STATE_GENRE} from "../../const";
 import NotFound from "../not-found/not-found";
 
 
@@ -72,7 +72,7 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button">
+                <Link to={APIRoute.MyList} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                   </svg>
                   <span>My list</span>

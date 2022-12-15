@@ -11,7 +11,7 @@ import Spinner from "../spinner/spinner";
 import {useAppSelector} from "../../hooks";
 import {getLoadedDataStatus} from "../../store/films-data/selectors";
 import {getAuthorizationStatus} from "../../store/user-process/selectors";
-import {AuthorizationStatus} from "../../const";
+import {APIRoute, AuthorizationStatus} from "../../const";
 
 
 function App(): JSX.Element {
@@ -25,13 +25,13 @@ function App(): JSX.Element {
   return (
       <Routes>
         <Route index element={<MainScreen/>}/>
-        <Route path='/login' element={<SignInScreen/>}/>
-        <Route path='/films/:id' element={<MoviePageScreen/>}/>
-        <Route path='/films/:id/review' element={<AddReviewScreen/>}/>
-        <Route path='/player/:id' element={<PlayerScreen/>}/>
+        <Route path={APIRoute.Login} element={<SignInScreen/>}/>
+        <Route path={`${APIRoute.Films}/:id`} element={<MoviePageScreen/>}/>
+        <Route path={`${APIRoute.Films}/:id${APIRoute.Review}`} element={<AddReviewScreen/>}/>
+        <Route path={`${APIRoute.Player}/:id`} element={<PlayerScreen/>}/>
         <Route path='*' element={<NotFound/>}/>
         <Route
-          path='/mylist'
+          path={APIRoute.MyList}
           element={
             <PrivateRoute>
               <MyListScreen/>

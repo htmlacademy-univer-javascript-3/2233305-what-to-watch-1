@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useEffect} from "react";
 import {fetchFilmAction} from "../../store/api-actions";
 import {getFilm} from "../../store/films-data/selectors";
+import {APIRoute} from "../../const";
 
 function PlayerScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
@@ -18,7 +19,7 @@ function PlayerScreen(): JSX.Element {
     <div className="player">
       <video src={film.videoLink} className="player__video" poster={film.posterImage}/>
 
-      <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
+      <button type="button" className="player__exit" onClick={() => navigate(APIRoute.Default)}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

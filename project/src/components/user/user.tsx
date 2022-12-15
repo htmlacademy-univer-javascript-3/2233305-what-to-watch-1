@@ -2,17 +2,17 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {Link} from "react-router-dom";
 import {logoutAction} from "../../store/api-actions";
 import {getAuthorizationStatus, getUser} from "../../store/user-process/selectors";
-import {AuthorizationStatus} from "../../const";
+import {APIRoute, AuthorizationStatus} from "../../const";
 
 function User(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const user = useAppSelector(getUser);
 
   const dispatch = useAppDispatch();
-  if (authorizationStatus === AuthorizationStatus.NoAuth || user === undefined) {
+  if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
       <div className="user-block">
-        <Link className="user-block__link" to={'/login'}>Sign in</Link>
+        <Link className="user-block__link" to={APIRoute.Login}>Sign in</Link>
       </div>
     );
   }
@@ -21,7 +21,7 @@ function User(): JSX.Element {
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">
-            <img src={user.avatarUrl} alt="User avatar" width="63" height="63"/>
+            <img src={user?.avatarUrl} alt="User avatar" width="63" height="63"/>
           </div>
         </li>
         <li className="user-block__item">

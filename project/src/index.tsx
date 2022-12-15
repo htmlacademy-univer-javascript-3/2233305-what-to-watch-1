@@ -10,7 +10,6 @@ import {
 } from "./store/api-actions";
 import browserHistory from "./browser-history";
 import HistoryRouter from "./components/history-route/history-route";
-import {ToastContainer} from "react-toastify";
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchAllFilmsAction());
@@ -25,7 +24,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <HistoryRouter history={browserHistory}>
-      <ToastContainer/>
       <App/>
     </HistoryRouter>
   </Provider>

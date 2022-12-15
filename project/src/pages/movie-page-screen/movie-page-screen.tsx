@@ -79,7 +79,7 @@ function MoviePageScreen(): JSX.Element {
                    width="218" height="327"
               />
             </div>
-            <Tabs film={film}/>
+            <Tabs/>
           </div>
         </div>
       </section>

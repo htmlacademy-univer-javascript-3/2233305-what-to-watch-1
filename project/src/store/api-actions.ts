@@ -16,7 +16,7 @@ export const fetchAllFilmsAction = createAsyncThunk<Films, undefined, {
 }>(
   'data/fetchFilms',
   async (_arg, {extra: api}) => {
-    const {data} = await api.get<Films>('/films');
+    const {data} = await api.get<Films>(APIRoute.Films);
     return data
   },
 );
@@ -29,10 +29,10 @@ export const fetchFilmAction = createAsyncThunk<Film | undefined, string | undef
   'data/fetchFilm',
   async (filmId, {dispatch, extra: api}) => {
     try {
-      const {data} = await api.get<Film>(`/films/${filmId}`);
+      const {data} = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
       return data
     } catch {
-      dispatch(redirectToRoute('/notFound'))
+      dispatch(redirectToRoute(APIRoute.NotFound))
     }
   },
 );
@@ -45,7 +45,7 @@ export const fetchPromoFilmAction = createAsyncThunk<Film, undefined, {
 }>(
   'data/fetchPromo',
   async (_arg, {extra: api}) => {
-    const {data} = await api.get<Film>('/promo');
+    const {data} = await api.get<Film>(APIRoute.Promo);
     return data
   },
 );
@@ -57,7 +57,7 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined, {
 }>(
   'data/fetchFavorite',
   async (_arg, {extra: api}) => {
-    const {data} = await api.get<Films>('/favorite');
+    const {data} = await api.get<Films>(APIRoute.Favorite);
     return data
   },
 );
@@ -69,7 +69,7 @@ export const fetchReviewAction = createAsyncThunk<Reviews, number | undefined, {
 }>(
   'data/fetchReview',
   async (filmId, {extra: api}) => {
-    const {data} = await api.get<Reviews>(`/comments/${filmId}`);
+    const {data} = await api.get<Reviews>(`${APIRoute.Comments}/${filmId}`);
     return data
   },
 );
@@ -81,7 +81,7 @@ export const fetchAddReviewAction = createAsyncThunk<void, { filmId: number | un
 }>(
   'data/fetchAddReview',
   async ({filmId, comment, rating}, {dispatch, extra: api}) => {
-    await api.post<Review>(`/comments/${filmId}`, {comment, rating});
+    await api.post<Review>(`${APIRoute.Comments}/${filmId}`, {comment, rating});
     dispatch(redirectToRoute(`${APIRoute.Films}/${filmId}`));
   },
 );
@@ -93,7 +93,7 @@ export const fetchGetSimilarAction = createAsyncThunk<Films, string | undefined,
 }>(
   'data/fetchGetSimilar',
   async (filmId, {extra: api}) => {
-    const {data} = await api.get<Films>(`/films/${filmId}/similar`);
+    const {data} = await api.get<Films>(`${APIRoute.Films}/${filmId}${APIRoute.Similar}`);
     return data
   },
 );
@@ -119,7 +119,7 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data: user} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(user.token);
-    dispatch(redirectToRoute('/'));
+    dispatch(redirectToRoute(APIRoute.Default));
     return user
   },
 );
@@ -131,7 +131,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 }>(
   'user/logout',
   async (_arg, {extra: api}) => {
-    await api.delete('/logout');
+    await api.delete(APIRoute.Logout);
     dropToken();
   },
 );
