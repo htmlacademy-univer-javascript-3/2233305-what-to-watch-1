@@ -6,17 +6,23 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useState} from 'react';
 import {Film} from '../../types/types';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {resetFilmsCount, showMore,} from '../../store/action';
+import {showMore} from '../../store/action';
 import User from "../../components/user/user";
+import {getFavoriteFilms, getFilmsWithGenre, getGenre, getPromoFilm} from "../../store/films-data/selectors";
+import {getFilmsCount} from "../../store/film-process/selectors";
+import {resetFilmsCount} from "../../store/film-process/film-process";
 
 
 function MainScreen(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {genre, films, filmsCount, promoFilm, favoriteFilms, genresFilm} = useAppSelector((state) => state);
+  const genre = useAppSelector(getGenre);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const filmsCount = useAppSelector(getFilmsCount);
+  const genresFilm = useAppSelector(getFilmsWithGenre)
   const [,setEnter] = useState<Film | null>(null);
-  console.log(films, genre, filmsCount)
   return (
     <>
       <section className="film-card">

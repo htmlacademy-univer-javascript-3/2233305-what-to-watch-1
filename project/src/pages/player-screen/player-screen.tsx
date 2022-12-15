@@ -3,9 +3,10 @@ import NotFound from '../not-found/not-found';
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useEffect} from "react";
 import {fetchFilmAction} from "../../store/api-actions";
+import {getFilm} from "../../store/films-data/selectors";
 
 function PlayerScreen(): JSX.Element {
-  const {film} = useAppSelector((state) => state);
+  const film = useAppSelector(getFilm);
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

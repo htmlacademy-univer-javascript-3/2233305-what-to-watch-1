@@ -9,11 +9,16 @@ import User from "../../components/user/user";
 import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
 import {useEffect} from "react";
 import {AuthorizationStatus} from "../../components/private-routes/private-route";
+import {getFavoriteFilms, getFilm, getSimilarFilms} from "../../store/films-data/selectors";
+import {getAuthorizationStatus} from "../../store/user-process/selectors";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const {favoriteFilms, film, authorizationStatus, similarFilms} = useAppSelector((state) => state);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const film = useAppSelector(getFilm)
+  const authorizationStatus = useAppSelector(getAuthorizationStatus)
+  const similarFilms = useAppSelector(getSimilarFilms)
   useEffect(() => {dispatch(fetchFilmAction(params.id)); dispatch(fetchGetSimilarAction(params.id))})
 
   if (film === undefined) {

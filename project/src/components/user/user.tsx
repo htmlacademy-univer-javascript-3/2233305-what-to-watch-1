@@ -2,9 +2,12 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import {AuthorizationStatus} from "../private-routes/private-route";
 import {Link} from "react-router-dom";
 import {logoutAction} from "../../store/api-actions";
+import {getAuthorizationStatus, getUser} from "../../store/user-process/selectors";
 
 function User(): JSX.Element {
-  const {authorizationStatus, user} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
+
   const dispatch = useAppDispatch();
   if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (

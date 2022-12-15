@@ -3,10 +3,11 @@ import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
 import {useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
+import {getFavoriteFilms} from "../../store/films-data/selectors";
 
 
 function MyListScreen(): JSX.Element {
-  const {favoriteFilms} = useAppSelector((state) => state);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

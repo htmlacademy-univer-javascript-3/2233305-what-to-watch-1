@@ -3,9 +3,10 @@ import AddReview from '../../components/add-review/add-review';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
+import {getPromoFilm} from "../../store/films-data/selectors";
 
 function AddReviewScreen(): JSX.Element {
-  const {promoFilm} = useAppSelector((state) => state);
+  const promoFilm = useAppSelector(getPromoFilm);
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">

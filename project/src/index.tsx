@@ -10,7 +10,6 @@ import {
   fetchPromoFilmAction,
   fetchReviewAction
 } from "./store/api-actions";
-import ErrorMessage from "./components/error-message/error-message";
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchAllFilmsAction());
@@ -25,7 +24,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <ErrorMessage/>
       <App/>
     </React.StrictMode>,
   </Provider>
