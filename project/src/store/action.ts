@@ -10,7 +10,5 @@ export const changeGenre = createAction('films/changeGenre', (value) => ({
 export const showMore = createAction('films/showMoreFilms');
 
 
-export const setError = createAction<string | null>('game/setError');
-
 
 

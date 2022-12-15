@@ -9,8 +9,6 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute, {AuthorizationStatus} from '../private-routes/private-route';
 import LoadingScreen from "../spinner/spinner";
 import {useAppSelector} from "../../hooks";
-import browserHistory from "../../browser-history";
-import HistoryRouter from "../history-route/history-route";
 import {getLoadedDataStatus} from "../../store/films-data/selectors";
 import {getAuthorizationStatus} from "../../store/user-process/selectors";
 
@@ -24,7 +22,6 @@ function App(): JSX.Element {
     );
   }
   return (
-    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route index element={<MainScreen/>}/>
         <Route path='/login' element={<SignInScreen/>}/>
@@ -41,7 +38,6 @@ function App(): JSX.Element {
           }
         />
       </Routes>
-    </HistoryRouter>
   );
 }
 

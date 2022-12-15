@@ -10,6 +10,9 @@ import {
   fetchPromoFilmAction,
   fetchReviewAction
 } from "./store/api-actions";
+import browserHistory from "./browser-history";
+import HistoryRouter from "./components/history-route/history-route";
+import {ToastContainer} from "react-toastify";
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchAllFilmsAction());
@@ -21,10 +24,12 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
+    <HistoryRouter history={browserHistory}>
+      <ToastContainer/>
       <App/>
-    </React.StrictMode>,
+    </HistoryRouter>
   </Provider>
 );
