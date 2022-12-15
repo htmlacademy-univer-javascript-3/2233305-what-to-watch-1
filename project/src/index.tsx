@@ -6,9 +6,7 @@ import {store} from './store';
 import {
   checkAuthAction,
   fetchAllFilmsAction,
-  fetchFavoriteFilmsAction,
   fetchPromoFilmAction,
-  fetchReviewAction
 } from "./store/api-actions";
 import browserHistory from "./browser-history";
 import HistoryRouter from "./components/history-route/history-route";
@@ -17,8 +15,7 @@ import {ToastContainer} from "react-toastify";
 store.dispatch(checkAuthAction());
 store.dispatch(fetchAllFilmsAction());
 store.dispatch(fetchPromoFilmAction());
-store.dispatch(fetchFavoriteFilmsAction());
-store.dispatch(fetchReviewAction());
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

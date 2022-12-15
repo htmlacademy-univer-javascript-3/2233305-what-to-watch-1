@@ -41,3 +41,7 @@ export type AuthData = {
   email: string
   password: string
 }
+
+export type Films = Film[]
+
+export type Reviews = Review[]

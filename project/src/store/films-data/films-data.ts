@@ -34,7 +34,6 @@ export const filmsData = createSlice({
       })
       .addCase(fetchAllFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload
-        state.genresFilms = action.payload
         state.isDataLoaded = false
       })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {

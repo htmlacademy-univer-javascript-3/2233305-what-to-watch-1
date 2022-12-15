@@ -11,9 +11,9 @@ export enum AuthorizationStatus {
 }
 
 export enum APIRoute {
-  Questions = '/questions',
+
   Login = '/login',
-  Logout = '/logout',
+  Films = '/films'
 }
 
 
