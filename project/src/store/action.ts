@@ -7,6 +7,8 @@ export const changeGenre = createAction<string>('films/changeGenre');
 
 export const showMore = createAction('films/showMoreFilms');
 
+export const resetCount = createAction('films/resetCount');
+
 
 
 

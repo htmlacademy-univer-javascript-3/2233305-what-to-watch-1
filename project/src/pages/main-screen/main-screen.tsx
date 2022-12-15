@@ -3,24 +3,33 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import CatalogGenres from '../../components/main/catalog-genres/catalog-genres';
 import {Link, useNavigate} from 'react-router-dom';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Film} from '../../types/types';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {showMore} from '../../store/action';
+import {changeGenre, resetCount, showMore} from '../../store/action';
 import User from "../../components/user/user";
-import {getFavoriteFilms, getFilmsWithGenre, getGenre, getPromoFilm} from "../../store/films-data/selectors";
-import {getFilmsCount} from "../../store/film-process/selectors";
-import {resetFilmsCount} from "../../store/film-process/film-process";
+import {
+  getFavoriteFilms,
+  getFilmsCount,
+  getFilmsWithGenre,
+  getGenre,
+  getPromoFilm
+} from "../../store/films-data/selectors";
+import {INITIAL_STATE_GENRE} from "../../const";
 
 
 function MainScreen(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(changeGenre(INITIAL_STATE_GENRE))
+    dispatch(resetCount())
+  }, [dispatch])
 
   const genre = useAppSelector(getGenre);
+  const filmsCount = useAppSelector(getFilmsCount);
   const promoFilm = useAppSelector(getPromoFilm);
   const favoriteFilms = useAppSelector(getFavoriteFilms);
-  const filmsCount = useAppSelector(getFilmsCount);
   const genresFilm = useAppSelector(getFilmsWithGenre)
   const [,setEnter] = useState<Film | null>(null);
   return (
@@ -54,16 +63,12 @@ function MainScreen(): JSX.Element {
 
               <div className="film-card__buttons">
                 <Link to={`/player/${promoFilm?.id}`} className="btn btn--play film-card__button" type="button"
-                      onClick={() => {
-                        dispatch(resetFilmsCount());
-                      }}>
+>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button" onClick={() => {
-                  dispatch(resetFilmsCount());
-                }}>
+                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button" >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                   </svg>
                   <span>My list</span>
@@ -86,7 +91,6 @@ function MainScreen(): JSX.Element {
               }}
                         onMouseLeave={() => setEnter(null)} onClick={() => {
                 navigate(`/films/${film.id}`);
-                dispatch(resetFilmsCount());
               }}
               />))}
           </div>

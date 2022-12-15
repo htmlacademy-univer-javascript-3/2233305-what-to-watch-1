@@ -3,6 +3,7 @@ import {Film, Films, Reviews} from "../../types/types";
 import {NameSpace} from "../../const";
 
 export const getFilms = (state: State): Films => state[NameSpace.Data].films;
+export const getFilmsCount = (state: State): number => state[NameSpace.Data].filmsCount;
 export const getLoadedDataStatus = (state: State): boolean => state[NameSpace.Data].isDataLoaded;
 
 export const getFilm = (state: State): Film | undefined => state[NameSpace.Data].film;

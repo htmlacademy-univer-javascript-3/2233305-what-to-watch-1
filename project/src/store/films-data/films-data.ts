@@ -8,7 +8,7 @@ import {
   fetchPromoFilmAction, fetchReviewAction
 } from "../api-actions";
 import {INITIAL_STATE_FILM_COUNT, INITIAL_STATE_GENRE, NameSpace} from "../../const";
-import {changeGenre, showMore} from "../action";
+import {changeGenre, resetCount, showMore} from "../action";
 
 const initialState: FilmsData = {
   filmsCount: INITIAL_STATE_FILM_COUNT,
@@ -57,6 +57,9 @@ export const filmsData = createSlice({
       })
       .addCase(showMore, (state) => {
         state.filmsCount = state.films.length > state.filmsCount ? state.filmsCount + 8 : state.filmsCount;
+      })
+      .addCase(resetCount, (state) => {
+        state.filmsCount = INITIAL_STATE_FILM_COUNT;
       })
   }
 });
