@@ -1,21 +1,23 @@
-import {Film} from '../../types/types';
+import {useAppSelector} from "../../hooks";
+import NotFound from "../../pages/not-found/not-found";
+import {getFilm} from "../../store/film-process/selector";
 
-type FilmProps = {
-  film: Film | null
-}
+function MovieDetails(): JSX.Element {
+  const film = useAppSelector(getFilm);
 
-function MovieDetails({film}: FilmProps): JSX.Element {
+  if (film === undefined)
+    return <NotFound/>
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Director</strong>
-          <span className="film-card__details-value">{film?.director}</span>
+          <span className="film-card__details-value">{film.director}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {film?.starring.map((actor) => (<>{actor}<br/></>))}
+            {film.starring.map((actor) => (<>{actor}<br/></>))}
           </span>
         </p>
       </div>
@@ -23,15 +25,15 @@ function MovieDetails({film}: FilmProps): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{film?.runTime}</span>
+          <span className="film-card__details-value">{film.runTime}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>
-          <span className="film-card__details-value">{film?.genre}</span>
+          <span className="film-card__details-value">{film.genre}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{film?.released}</span>
+          <span className="film-card__details-value">{film.released}</span>
         </p>
       </div>
     </div>

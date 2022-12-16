@@ -1,23 +1,21 @@
-import {useNavigate, useParams} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import NotFound from '../not-found/not-found';
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {useEffect} from "react";
-import {fetchFilmAction} from "../../store/api-actions";
+import {useAppSelector} from "../../hooks";
+
+import {APIRoute} from "../../const";
+import {getFilm} from "../../store/film-process/selector";
 
 function PlayerScreen(): JSX.Element {
-  const {film} = useAppSelector((state) => state);
-  const params = useParams();
+  const film = useAppSelector(getFilm);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  useEffect(() => {dispatch(fetchFilmAction(params.id))})
   if (film === undefined) {
     return <NotFound/>;
   }
   return (
     <div className="player">
-      <video src={film?.videoLink} className="player__video" poster={film?.posterImage}/>
+      <video src={film.videoLink} className="player__video" poster={film.posterImage}/>
 
-      <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
+      <button type="button" className="player__exit" onClick={() => navigate(APIRoute.Default)}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

@@ -3,25 +3,43 @@ import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import CatalogGenres from '../../components/main/catalog-genres/catalog-genres';
 import {Link, useNavigate} from 'react-router-dom';
-import {useState} from 'react';
-import {Film} from '../../types/types';
+import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {resetFilmsCount, showMore,} from '../../store/action';
+import {resetCount, showMore} from '../../store/action';
 import User from "../../components/user/user";
+import {
+  getFavoriteFilms,
+  getFilmsCount,
+  getFilmsWithGenre,
+  getGenre
+} from "../../store/films-process/selectors";
+import {APIRoute} from "../../const";
+import NotFound from "../not-found/not-found";
+import {getPromoFilm} from "../../store/film-process/selector";
 
 
 function MainScreen(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {genre, films, filmsCount, promoFilm, favoriteFilms, genresFilm} = useAppSelector((state) => state);
-  const [,setEnter] = useState<Film | null>(null);
-  console.log(films, genre, filmsCount)
+  useEffect(() => {
+    dispatch(resetCount())
+  }, [dispatch])
+
+  const promoFilm = useAppSelector(getPromoFilm);
+  const genre = useAppSelector(getGenre);
+  const filmsCount = useAppSelector(getFilmsCount);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const genresFilm = useAppSelector(getFilmsWithGenre)
+
+  if (promoFilm === undefined)
+    return <NotFound/>
+
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name}/>
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -34,30 +52,26 @@ function MainScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={promoFilm?.posterImage} alt={promoFilm?.name}
+              <img src={promoFilm.posterImage} alt={promoFilm.name}
                    width="218" height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoFilm?.name}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoFilm?.genre}</span>
-                <span className="film-card__year">{promoFilm?.released}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${promoFilm?.id}`} className="btn btn--play film-card__button" type="button"
-                      onClick={() => {
-                        dispatch(resetFilmsCount());
-                      }}>
+                <Link to={`/player/${promoFilm.id}`} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
+                    <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={'/mylist'} className="btn btn--list film-card__button" type="button" onClick={() => {
-                  dispatch(resetFilmsCount());
-                }}>
+                <Link to={APIRoute.MyList} className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                   </svg>
                   <span>My list</span>
@@ -75,12 +89,8 @@ function MainScreen(): JSX.Element {
           <CatalogGenres genre={genre}/>
           <div className="catalog__films-list">
             {genresFilm.slice(0, filmsCount).map((film) => (
-              <FilmCard key={film.id} film={film} onMouseEnter={() => {
-                setEnter(film);
-              }}
-                        onMouseLeave={() => setEnter(null)} onClick={() => {
+              <FilmCard key={film.id} film={film} onClick={() => {
                 navigate(`/films/${film.id}`);
-                dispatch(resetFilmsCount());
               }}
               />))}
           </div>

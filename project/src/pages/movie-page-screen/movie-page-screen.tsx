@@ -8,13 +8,27 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
 import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
 import {useEffect} from "react";
-import {AuthorizationStatus} from "../../components/private-routes/private-route";
+import {getFavoriteFilms} from "../../store/films-process/selectors";
+import {getAuthorizationStatus} from "../../store/user-process/selectors";
+import {AuthorizationStatus} from "../../const";
+import {getFilm, getLoadedDataStatusFilm, getSimilarFilms} from "../../store/film-process/selector";
+import Spinner from "../../components/spinner/spinner";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const {favoriteFilms, film, authorizationStatus, similarFilms} = useAppSelector((state) => state);
-  useEffect(() => {dispatch(fetchFilmAction(params.id)); dispatch(fetchGetSimilarAction(params.id))})
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const film = useAppSelector(getFilm)
+  const authorizationStatus = useAppSelector(getAuthorizationStatus)
+  const similarFilms = useAppSelector(getSimilarFilms)
+  const isLoadedFilm = useAppSelector(getLoadedDataStatusFilm)
+  useEffect(() => {
+    dispatch(fetchFilmAction(params.id));
+    dispatch(fetchGetSimilarAction(params.id))
+  }, [params.id])
+
+  if (isLoadedFilm)
+    return <Spinner/>
 
   if (film === undefined) {
     return (<NotFound/>);
@@ -24,7 +38,7 @@ function MoviePageScreen(): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film?.backgroundImage} alt={film?.name}/>
+            <img src={film.backgroundImage} alt={film.name}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -36,19 +50,19 @@ function MoviePageScreen(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film?.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film?.genre}</span>
-                <span className="film-card__year">{film?.released}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={`/player/${film.id}`} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
@@ -56,7 +70,8 @@ function MoviePageScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">{favoriteFilms.length}</span>
                 </button>
-                {authorizationStatus === AuthorizationStatus.Auth ?  <Link to={`/films/${film?.id}/review`} className="btn film-card__button">Add review</Link> : null}
+                {authorizationStatus === AuthorizationStatus.Auth ?
+                  <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link> : null}
               </div>
             </div>
           </div>
@@ -65,11 +80,11 @@ function MoviePageScreen(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film?.posterImage} alt={film?.name}
+              <img src={film.posterImage} alt={film.name}
                    width="218" height="327"
               />
             </div>
-            <Tabs film={film}/>
+            <Tabs/>
           </div>
         </div>
       </section>

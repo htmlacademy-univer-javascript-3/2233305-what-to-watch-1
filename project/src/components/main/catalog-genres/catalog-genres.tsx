@@ -1,10 +1,13 @@
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {changeGenre, getFilms} from '../../../store/action';
+import {getFilms} from "../../../store/films-process/selectors";
+import {changeGenre} from "../../../store/action";
+import {INITIAL_STATE_GENRE} from "../../../const";
+
 
 function CatalogGenres(props: { genre: string }): JSX.Element {
   const dispatch = useAppDispatch();
-  const {films} = useAppSelector((state) => state);
-  const catalogGenresData = ['All genres', ...new Set(films.map((x) => x.genre))]
+  const films = useAppSelector(getFilms);
+  const catalogGenresData = [INITIAL_STATE_GENRE, ...new Set(films.map((x) => x.genre))]
   return (
     <ul className="catalog__genres-list">
       {catalogGenresData.map((genre) => (
@@ -12,7 +15,6 @@ function CatalogGenres(props: { genre: string }): JSX.Element {
             className={`catalog__genres-item ${props.genre === genre ? 'catalog__genres-item--active' : ''}`}>
           <a onClick={() => {
             dispatch(changeGenre(genre));
-            dispatch(getFilms());
           }} className="catalog__genres-link"
           >{genre}
           </a>

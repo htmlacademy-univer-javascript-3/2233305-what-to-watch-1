@@ -3,17 +3,19 @@ import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
 import {useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
+import {getFavoriteFilms} from "../../store/films-process/selectors";
 
 
 function MyListScreen(): JSX.Element {
-  const {favoriteFilms} = useAppSelector((state) => state);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo/>
 
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilms.length}</span></h1>
-       <User/>
+        <h1 className="page-title user-page__title">My list <span
+          className="user-page__film-count">{favoriteFilms.length}</span></h1>
+        <User/>
       </header>
 
       <section className="catalog">
