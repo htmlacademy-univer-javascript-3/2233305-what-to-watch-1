@@ -1,9 +1,9 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
-import {FormEvent, useRef} from "react";
-import {useAppDispatch} from "../../hooks";
-import {loginAction} from "../../store/api-actions";
-import {AuthData} from "../../types/types";
+import {FormEvent, useRef} from 'react';
+import {useAppDispatch} from '../../hooks';
+import {loginAction} from '../../store/api-actions';
+import {AuthData} from '../../types/types';
 
 function SignInScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -37,13 +37,15 @@ function SignInScreen(): JSX.Element {
         <form className="sign-in__form" onSubmit={handleSubmit}>
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" ref={loginRef} type="email" placeholder="Email address" name="user-email"
+              <input className="sign-in__input" ref={loginRef} type="email" placeholder="Email address"
+                name="user-email"
                 id="user-email"
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" ref={passwordRef} type="password" placeholder="Password" name="user-password"
+              <input className="sign-in__input" ref={passwordRef} type="password" placeholder="Password"
+                name="user-password"
                 id="user-password"
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>

@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import VideoPlayer from '../../video-player/video-player';
 import {Film} from '../../../types/types';
+import {APIRoute} from '../../../const';
 
 type FilmProps = {
   film: Film
@@ -16,7 +17,7 @@ function FilmCard({film, onClick}: FilmCardProps): JSX.Element {
     <article className="small-film-card catalog__films-card" onClick={onClick}>
       <VideoPlayer previewVideoLink={film.previewVideoLink} posterSrc={film.posterImage}/>
       <h3 className="small-film-card__title">
-        <Link to={`/film/${film.id}`} className="small-film-card__link">{film.name}</Link>
+        <Link to={`${APIRoute.Film}/${film.id}`} className="small-film-card__link">{film.name}</Link>
       </h3>
     </article>
   );

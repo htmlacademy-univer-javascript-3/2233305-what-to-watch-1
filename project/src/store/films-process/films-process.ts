@@ -1,10 +1,8 @@
-import {FilmsProcess} from "../../types/state";
-import {createSlice} from "@reduxjs/toolkit";
-import {
-  fetchAllFilmsAction,
-} from "../api-actions";
-import {INITIAL_STATE_FILM_COUNT, INITIAL_STATE_GENRE, NameSpace} from "../../const";
-import {changeGenre, resetCount, showMore} from "../action";
+import {FilmsProcess} from '../../types/state';
+import {createSlice} from '@reduxjs/toolkit';
+import {fetchAllFilmsAction,} from '../api-actions';
+import {INITIAL_STATE_FILM_COUNT, INITIAL_STATE_GENRE, NameSpace} from '../../const';
+import {changeGenre, resetCount, showMore} from '../action';
 
 const initialState: FilmsProcess = {
   filmsCount: INITIAL_STATE_FILM_COUNT,
@@ -21,15 +19,15 @@ export const filmsProcess = createSlice({
   extraReducers: function (builder) {
     builder
       .addCase(fetchAllFilmsAction.pending, (state) => {
-        state.isDataLoaded = true
+        state.isDataLoaded = true;
       })
       .addCase(fetchAllFilmsAction.fulfilled, (state, action) => {
-        state.films = action.payload
-        state.genresFilms = state.films
-        state.isDataLoaded = false
+        state.films = action.payload;
+        state.genresFilms = state.films;
+        state.isDataLoaded = false;
       })
       .addCase(changeGenre, (state, action) => {
-        state.genre = action.payload
+        state.genre = action.payload;
         state.genresFilms = state.genre === INITIAL_STATE_GENRE ? state.films : state.films.filter((film) => film.genre === state.genre);
       })
       .addCase(showMore, (state) => {
@@ -37,6 +35,6 @@ export const filmsProcess = createSlice({
       })
       .addCase(resetCount, (state) => {
         state.filmsCount = INITIAL_STATE_FILM_COUNT;
-      })
+      });
   }
 });

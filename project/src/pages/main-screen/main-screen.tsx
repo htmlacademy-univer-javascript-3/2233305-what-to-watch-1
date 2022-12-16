@@ -6,16 +6,13 @@ import {Link, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {resetCount, showMore} from '../../store/action';
-import User from "../../components/user/user";
-import {
-  getFilmsCount,
-  getFilmsWithGenre,
-  getGenre
-} from "../../store/films-process/selectors";
-import NotFound from "../not-found/not-found";
-import {getPromoFilm} from "../../store/film-process/selector";
-import MovieInList from "../../components/movie-page/movie-in-list";
-
+import User from '../../components/user/user';
+import {getFilmsCount, getFilmsWithGenre, getGenre} from '../../store/films-process/selectors';
+import NotFound from '../not-found/not-found';
+import {getPromoFilm} from '../../store/film-process/selector';
+import MovieInList from '../../components/movie-page/movie-in-list';
+import {APIRoute} from '../../const';
+import {fetchPromoFilmAction} from '../../store/api-actions';
 
 
 function MainScreen(): JSX.Element {
@@ -23,16 +20,18 @@ function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(resetCount())
-  }, [dispatch])
+    dispatch(resetCount());
+    dispatch(fetchPromoFilmAction());
+  }, [dispatch]);
 
   const promoFilm = useAppSelector(getPromoFilm);
   const genre = useAppSelector(getGenre);
   const filmsCount = useAppSelector(getFilmsCount);
-  const genresFilm = useAppSelector(getFilmsWithGenre)
+  const genresFilm = useAppSelector(getFilmsWithGenre);
 
-  if (promoFilm === undefined)
-    return <NotFound/>
+  if (promoFilm === undefined) {
+    return <NotFound/>;
+  }
 
   return (
     <>
@@ -52,7 +51,7 @@ function MainScreen(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img src={promoFilm.posterImage} alt={promoFilm.name}
-                   width="218" height="327"
+                width="218" height="327"
               />
             </div>
 
@@ -64,7 +63,9 @@ function MainScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${promoFilm.id}`} className="btn btn--play film-card__button" type="button">
+                <Link to={`${APIRoute.Player}/${promoFilm.id}`} className="btn btn--play film-card__button"
+                  type="button"
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -84,7 +85,7 @@ function MainScreen(): JSX.Element {
           <div className="catalog__films-list">
             {genresFilm.slice(0, filmsCount).map((film) => (
               <FilmCard key={film.id} film={film} onClick={() => {
-                navigate(`/films/${film.id}`);
+                navigate(`${APIRoute.Films}/${film.id}`);
               }}
               />))}
           </div>

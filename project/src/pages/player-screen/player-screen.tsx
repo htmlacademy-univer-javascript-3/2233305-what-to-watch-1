@@ -1,11 +1,11 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import NotFound from '../not-found/not-found';
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import React, {useEffect, useRef, useState} from "react";
-import {fetchFilmAction} from "../../store/api-actions";
-import LoadingScreen from "../../components/spinner/spinner";
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import React, {useEffect, useRef, useState} from 'react';
+import {fetchFilmAction} from '../../store/api-actions';
+import LoadingScreen from '../../components/spinner/spinner';
 
-import {getFilm} from "../../store/film-process/selector";
+import {getFilm} from '../../store/film-process/selector';
 
 function PlayerScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
@@ -18,18 +18,19 @@ function PlayerScreen(): JSX.Element {
   const [progress, setProgress] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
 
- useEffect(() => {dispatch(fetchFilmAction(params.id))
+  useEffect(() => {
+    dispatch(fetchFilmAction(params.id));
 
-   if (videoRef.current === null) {
-     return;
-   }
+    if (videoRef.current === null) {
+      return;
+    }
 
-   videoRef.current?.addEventListener('loadeddata', () => setIsLoading(false));
+    videoRef.current?.addEventListener('loadeddata', () => setIsLoading(false));
 
-   if (!isPlaying) {
-     videoRef.current.load();
-   }
- }, [params.id])
+    if (!isPlaying) {
+      videoRef.current.load();
+    }
+  }, [params.id]);
 
   if (film === undefined) {
     return <NotFound/>;
@@ -48,29 +49,30 @@ function PlayerScreen(): JSX.Element {
 
   const handleFullScreenVideo = () => {
     if (videoRef.current?.requestFullscreen) {
-      videoRef.current?.requestFullscreen()
+      videoRef.current?.requestFullscreen();
     }
-  }
+  };
 
   const handleProgressBar = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    // @ts-ignore
-    if (isNaN(e.target.duration))
+    const target = (e.target as HTMLVideoElement);
+    if (isNaN(target.duration)) {
       return;
-    // @ts-ignore
-    setProgress((e.target.currentTime / e.target.duration) * 100);
-    if (videoRef.current)
+    }
+    setProgress((target.currentTime / target.duration) * 100);
+    if (videoRef.current) {
       setTimeLeft(Math.trunc(videoRef.current.duration - videoRef.current.currentTime));
+    }
 
-  }
+  };
 
   const formatTime = (seconds: number) => {
     const date = new Date(seconds * 1000);
     let format = date.toISOString().slice(11, 19).toString();
-    if (format.startsWith('00')){
+    if (format.startsWith('00')) {
       format = format.substring(3);
     }
     return `-${format}`;
-  }
+  };
 
   return (
     <div className="player">
@@ -90,7 +92,7 @@ function PlayerScreen(): JSX.Element {
         <div className="player__controls-row">
           <div className="player__time">
             <progress className="player__progress" value={progress} max="100"/>
-            <div className="player__toggler" style={{ left: `${progress}%` }}>Toggler</div>
+            <div className="player__toggler" style={{left: `${progress}%`}}>Toggler</div>
           </div>
           <div className="player__time-value">{formatTime(timeLeft)}</div>
         </div>

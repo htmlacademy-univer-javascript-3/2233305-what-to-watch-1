@@ -24,7 +24,8 @@ export enum APIRoute {
   NotFound = '/notFound',
   Review = '/review',
   Player = '/player',
-  MyList = '/mylist'
+  MyList = '/mylist',
+  Film = '/film',
 }
 
 

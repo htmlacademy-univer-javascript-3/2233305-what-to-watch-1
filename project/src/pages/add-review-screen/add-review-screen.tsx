@@ -1,15 +1,16 @@
 import Logo from '../../components/logo/logo';
 import AddReview from '../../components/add-review/add-review';
 import {Link} from 'react-router-dom';
-import {useAppSelector} from "../../hooks";
-import User from "../../components/user/user";
-import NotFound from "../not-found/not-found";
-import {getFilm} from "../../store/film-process/selector";
+import {useAppSelector} from '../../hooks';
+import User from '../../components/user/user';
+import NotFound from '../not-found/not-found';
+import {getFilm} from '../../store/film-process/selector';
+import {APIRoute} from '../../const';
 
 function AddReviewScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
   if (film === undefined)
-    return <NotFound/>
+  {return <NotFound/>;}
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -24,7 +25,7 @@ function AddReviewScreen(): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
+                <Link to={`${APIRoute.Films}/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -36,7 +37,7 @@ function AddReviewScreen(): JSX.Element {
 
         <div className="film-card__poster film-card__poster--small">
           <img src={film.posterImage} alt={film.name}
-               width="218" height="327"
+            width="218" height="327"
           />
         </div>
       </div>

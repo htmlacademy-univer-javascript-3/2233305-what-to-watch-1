@@ -1,11 +1,12 @@
-import {FilmProcess} from "../../types/state";
-import {createSlice} from "@reduxjs/toolkit";
+import {FilmProcess} from '../../types/state';
+import {createSlice} from '@reduxjs/toolkit';
 import {
   fetchChangeFavoriteFilmsAction,
-  fetchFilmAction, fetchGetSimilarAction,
+  fetchFilmAction,
+  fetchGetSimilarAction,
   fetchPromoFilmAction
-} from "../api-actions";
-import {NameSpace} from "../../const";
+} from '../api-actions';
+import {NameSpace} from '../../const';
 
 const initialState: FilmProcess = {
   promoFilm: undefined,
@@ -21,35 +22,33 @@ export const filmProcess = createSlice({
   extraReducers: function (builder) {
     builder
       .addCase(fetchFilmAction.pending, (state) => {
-        state.isDataLoaded = true
+        state.isDataLoaded = true;
       })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.film = action.payload;
-        state.isDataLoaded = false
+        state.isDataLoaded = false;
       })
       .addCase(fetchGetSimilarAction.pending, (state) => {
-        state.isDataLoaded = true
+        state.isDataLoaded = true;
       })
       .addCase(fetchGetSimilarAction.fulfilled, (state, action) => {
         state.similarFilms = action.payload;
-        state.isDataLoaded = false
+        state.isDataLoaded = false;
       })
       .addCase(fetchPromoFilmAction.pending, (state) => {
-        state.isDataLoaded = true
+        state.isDataLoaded = true;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
-        state.promoFilm = action.payload
-        state.isDataLoaded = false
+        state.promoFilm = action.payload;
+        state.isDataLoaded = false;
       })
       .addCase(fetchChangeFavoriteFilmsAction.fulfilled, (state, action) => {
-        if (state.film?.id === action.payload.id)
-        {
-          state.film.isFavorite = action.payload.isFavorite
+        if (state.film?.id === action.payload.id) {
+          state.film.isFavorite = action.payload.isFavorite;
         }
-        if (state.promoFilm?.id === action.payload.id)
-        {
-          state.promoFilm.isFavorite = action.payload.isFavorite
+        if (state.promoFilm?.id === action.payload.id) {
+          state.promoFilm.isFavorite = action.payload.isFavorite;
         }
-      })
+      });
   }
 });

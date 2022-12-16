@@ -30,7 +30,7 @@ function VideoPlayer({previewVideoLink, posterSrc}: VideoPlayerProps): JSX.Eleme
 
   return (
     <video src={previewVideoLink} poster={posterSrc} muted width="280" height="175" ref={videoRef}
-           onMouseEnter={() => setIsPlaying(true)} onMouseLeave={() => setIsPlaying(false)}
+      onMouseEnter={() => setIsPlaying(true)} onMouseLeave={() => setIsPlaying(false)}
     >
     </video>
   );

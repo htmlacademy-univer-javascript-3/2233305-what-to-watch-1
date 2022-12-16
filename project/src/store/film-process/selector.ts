@@ -1,6 +1,6 @@
-import {State} from "../../types/state";
-import {NameSpace} from "../../const";
-import {Film, Films} from "../../types/types";
+import {State} from '../../types/state';
+import {NameSpace} from '../../const';
+import {Film, Films} from '../../types/types';
 
 export const getLoadedDataStatusFilm = (state: State): boolean => state[NameSpace.Film].isDataLoaded;
 

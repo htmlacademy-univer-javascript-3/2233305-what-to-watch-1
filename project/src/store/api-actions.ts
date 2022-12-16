@@ -1,12 +1,10 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {AuthData, Film, Films, Review, Reviews, UserData} from "../types/types";
-import {
-  redirectToRoute,
-} from "./action";
-import {dropToken, saveToken} from "../services/token";
-import {APIRoute} from "../const";
+import {AuthData, Film, Films, Review, Reviews, UserData} from '../types/types';
+import {redirectToRoute,} from './action';
+import {dropToken, saveToken} from '../services/token';
+import {APIRoute} from '../const';
 
 
 export const fetchAllFilmsAction = createAsyncThunk<Films, undefined, {
@@ -17,7 +15,7 @@ export const fetchAllFilmsAction = createAsyncThunk<Films, undefined, {
   'data/fetchFilms',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Films>(APIRoute.Films);
-    return data
+    return data;
   },
 );
 
@@ -30,9 +28,9 @@ export const fetchFilmAction = createAsyncThunk<Film | undefined, string | undef
   async (filmId, {dispatch, extra: api}) => {
     try {
       const {data} = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
-      return data
+      return data;
     } catch {
-      dispatch(redirectToRoute(APIRoute.NotFound))
+      dispatch(redirectToRoute(APIRoute.NotFound));
     }
   },
 );
@@ -46,7 +44,7 @@ export const fetchPromoFilmAction = createAsyncThunk<Film, undefined, {
   'data/fetchPromo',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Film>(APIRoute.Promo);
-    return data
+    return data;
   },
 );
 
@@ -58,11 +56,11 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined, {
   'data/fetchFavorite',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<Films>(APIRoute.Favorite);
-    return data
+    return data;
   },
 );
 
-export const fetchChangeFavoriteFilmsAction = createAsyncThunk<Film,  { filmId: number | undefined, status : number }, {
+export const fetchChangeFavoriteFilmsAction = createAsyncThunk<Film, { filmId: number | undefined, status: number }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -70,8 +68,7 @@ export const fetchChangeFavoriteFilmsAction = createAsyncThunk<Film,  { filmId: 
   'data/fetchChange',
   async ({filmId, status}, {extra: api}) => {
     const {data} = await api.post<Film>(`${APIRoute.Favorite}/${filmId}/${status}`);
-    console.log(data)
-    return data
+    return data;
   },
 );
 
@@ -83,7 +80,7 @@ export const fetchReviewAction = createAsyncThunk<Reviews, number | undefined, {
   'data/fetchReview',
   async (filmId, {extra: api}) => {
     const {data} = await api.get<Reviews>(`${APIRoute.Comments}/${filmId}`);
-    return data
+    return data;
   },
 );
 
@@ -107,7 +104,7 @@ export const fetchGetSimilarAction = createAsyncThunk<Films, string | undefined,
   'data/fetchGetSimilar',
   async (filmId, {extra: api}) => {
     const {data} = await api.get<Films>(`${APIRoute.Films}/${filmId}${APIRoute.Similar}`);
-    return data
+    return data;
   },
 );
 
@@ -133,7 +130,7 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
     const {data: user} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(user.token);
     dispatch(redirectToRoute(APIRoute.Default));
-    return user
+    return user;
   },
 );
 
