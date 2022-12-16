@@ -3,6 +3,7 @@ export enum NameSpace {
   Film = 'FILM',
   Review = 'REVIEW',
   User = 'USER',
+  FavoriteFilms = 'FAVORITE',
 }
 
 export enum AuthorizationStatus {

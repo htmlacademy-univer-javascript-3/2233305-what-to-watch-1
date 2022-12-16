@@ -62,6 +62,19 @@ export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined, {
   },
 );
 
+export const fetchChangeFavoriteFilmsAction = createAsyncThunk<Film,  { filmId: number | undefined, status : number }, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'data/fetchChange',
+  async ({filmId, status}, {extra: api}) => {
+    const {data} = await api.post<Film>(`${APIRoute.Favorite}/${filmId}/${status}`);
+    console.log(data)
+    return data
+  },
+);
+
 export const fetchReviewAction = createAsyncThunk<Reviews, number | undefined, {
   dispatch: AppDispatch,
   state: State,

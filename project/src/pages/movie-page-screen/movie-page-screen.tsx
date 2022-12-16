@@ -8,16 +8,15 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
 import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
 import {useEffect} from "react";
-import {getFavoriteFilms} from "../../store/films-process/selectors";
 import {getAuthorizationStatus} from "../../store/user-process/selectors";
 import {AuthorizationStatus} from "../../const";
 import {getFilm, getLoadedDataStatusFilm, getSimilarFilms} from "../../store/film-process/selector";
 import Spinner from "../../components/spinner/spinner";
+import MovieInList from "../../components/movie-page/movie-in-list";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
   const dispatch = useAppDispatch();
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const film = useAppSelector(getFilm)
   const authorizationStatus = useAppSelector(getAuthorizationStatus)
   const similarFilms = useAppSelector(getSimilarFilms)
@@ -63,13 +62,7 @@ function MoviePageScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{favoriteFilms.length}</span>
-                </button>
+               <MovieInList film={film}/>
                 {authorizationStatus === AuthorizationStatus.Auth ?
                   <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link> : null}
               </div>

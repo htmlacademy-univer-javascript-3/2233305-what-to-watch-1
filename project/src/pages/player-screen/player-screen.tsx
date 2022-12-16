@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import NotFound from '../not-found/not-found';
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import React, {ChangeEvent, SyntheticEvent, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {fetchFilmAction} from "../../store/api-actions";
 import LoadingScreen from "../../components/spinner/spinner";
 
@@ -80,7 +80,7 @@ function PlayerScreen(): JSX.Element {
         poster={film?.posterImage}
         ref={videoRef}
         onDoubleClick={handleFullScreenVideo}
-        onTimeUpdate={(e) => handleProgressBar(e)}
+        onTimeUpdate={(event) => handleProgressBar(event)}
       />
 
       {isLoading && <LoadingScreen/>}

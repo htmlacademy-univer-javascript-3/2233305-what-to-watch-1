@@ -12,6 +12,11 @@ export type FilmsProcess = {
   genre : string,
   genresFilms : Films,
   films: Films,
+  isDataLoaded: boolean
+};
+export type FavoriteFilmProcess = {
+
+  currentFilm : Film | undefined
   favoriteFilms: Films,
   isDataLoaded: boolean
 };
