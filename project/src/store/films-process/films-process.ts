@@ -2,7 +2,6 @@ import {FilmsProcess} from "../../types/state";
 import {createSlice} from "@reduxjs/toolkit";
 import {
   fetchAllFilmsAction,
-  fetchFavoriteFilmsAction
 } from "../api-actions";
 import {INITIAL_STATE_FILM_COUNT, INITIAL_STATE_GENRE, NameSpace} from "../../const";
 import {changeGenre, resetCount, showMore} from "../action";
@@ -12,7 +11,6 @@ const initialState: FilmsProcess = {
   genre: INITIAL_STATE_GENRE,
   films: [],
   genresFilms: [],
-  favoriteFilms: [],
   isDataLoaded: false
 };
 
@@ -28,13 +26,6 @@ export const filmsProcess = createSlice({
       .addCase(fetchAllFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload
         state.genresFilms = state.films
-        state.isDataLoaded = false
-      })
-      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
-        state.isDataLoaded = true
-      })
-      .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
-        state.favoriteFilms = action.payload
         state.isDataLoaded = false
       })
       .addCase(changeGenre, (state, action) => {

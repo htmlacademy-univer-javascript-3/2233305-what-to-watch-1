@@ -1,12 +1,20 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
-import {useAppSelector} from "../../hooks";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
-import {getFavoriteFilms} from "../../store/films-process/selectors";
+import {useEffect} from "react";
+import {fetchFavoriteFilmsAction} from "../../store/api-actions";
+import {getFavoriteFilms} from "../../store/favorite-film-process/selectors";
 
 
 function MyListScreen(): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchFavoriteFilmsAction())
+  }, [dispatch])
+
   const favoriteFilms = useAppSelector(getFavoriteFilms);
   return (
     <div className="user-page">
@@ -23,9 +31,7 @@ function MyListScreen(): JSX.Element {
 
         <div className="catalog__films-list">
           {favoriteFilms.map((film) => (
-            <article className="small-film-card catalog__films-card" key={film.id}>
               <FilmCard film={film}/>
-            </article>
           ))}
         </div>
       </section>

@@ -1,6 +1,7 @@
 import {FilmProcess} from "../../types/state";
 import {createSlice} from "@reduxjs/toolkit";
 import {
+  fetchChangeFavoriteFilmsAction,
   fetchFilmAction, fetchGetSimilarAction,
   fetchPromoFilmAction
 } from "../api-actions";
@@ -20,12 +21,10 @@ export const filmProcess = createSlice({
   extraReducers: function (builder) {
     builder
       .addCase(fetchFilmAction.pending, (state) => {
-        console.log("p")
         state.isDataLoaded = true
       })
       .addCase(fetchFilmAction.fulfilled, (state, action) => {
         state.film = action.payload;
-        console.log("f")
         state.isDataLoaded = false
       })
       .addCase(fetchGetSimilarAction.pending, (state) => {
@@ -41,6 +40,16 @@ export const filmProcess = createSlice({
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.promoFilm = action.payload
         state.isDataLoaded = false
+      })
+      .addCase(fetchChangeFavoriteFilmsAction.fulfilled, (state, action) => {
+        if (state.film?.id === action.payload.id)
+        {
+          state.film.isFavorite = action.payload.isFavorite
+        }
+        if (state.promoFilm?.id === action.payload.id)
+        {
+          state.promoFilm.isFavorite = action.payload.isFavorite
+        }
       })
   }
 });

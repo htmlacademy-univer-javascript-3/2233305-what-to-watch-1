@@ -8,14 +8,14 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {resetCount, showMore} from '../../store/action';
 import User from "../../components/user/user";
 import {
-  getFavoriteFilms,
   getFilmsCount,
   getFilmsWithGenre,
   getGenre
 } from "../../store/films-process/selectors";
-import {APIRoute} from "../../const";
 import NotFound from "../not-found/not-found";
 import {getPromoFilm} from "../../store/film-process/selector";
+import MovieInList from "../../components/movie-page/movie-in-list";
+
 
 
 function MainScreen(): JSX.Element {
@@ -29,7 +29,6 @@ function MainScreen(): JSX.Element {
   const promoFilm = useAppSelector(getPromoFilm);
   const genre = useAppSelector(getGenre);
   const filmsCount = useAppSelector(getFilmsCount);
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const genresFilm = useAppSelector(getFilmsWithGenre)
 
   if (promoFilm === undefined)
@@ -71,12 +70,7 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={APIRoute.MyList} className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">{favoriteFilms.length}</span>
-                </Link>
+                <MovieInList film={promoFilm}/>
               </div>
             </div>
           </div>
