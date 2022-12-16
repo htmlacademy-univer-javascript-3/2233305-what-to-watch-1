@@ -1,6 +1,6 @@
 import {useAppSelector} from "../../hooks";
-import {getFilm} from "../../store/films-data/selectors";
 import NotFound from "../../pages/not-found/not-found";
+import {getFilm} from "../../store/film-process/selector";
 
 function MovieOverview(): JSX.Element {
   const film = useAppSelector(getFilm);

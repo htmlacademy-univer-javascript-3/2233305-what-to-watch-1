@@ -3,8 +3,8 @@ import AddReview from '../../components/add-review/add-review';
 import {Link} from 'react-router-dom';
 import {useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
-import {getFilm} from "../../store/films-data/selectors";
 import NotFound from "../not-found/not-found";
+import {getFilm} from "../../store/film-process/selector";
 
 function AddReviewScreen(): JSX.Element {
   const film = useAppSelector(getFilm);

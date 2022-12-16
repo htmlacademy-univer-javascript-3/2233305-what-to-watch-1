@@ -1,8 +1,7 @@
 import {FormEvent, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {fetchAddReviewAction} from "../../store/api-actions";
-import {getFilm} from "../../store/films-data/selectors";
-
+import {getFilm} from "../../store/film-process/selector";
 function AddReview(): JSX.Element {
   const dispatch = useAppDispatch();
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

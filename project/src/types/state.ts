@@ -7,24 +7,27 @@ export type UserProcess = {
   user: UserData | undefined,
 };
 
-export type FilmsData = {
+export type FilmsProcess = {
   filmsCount : number,
   genre : string,
   genresFilms : Films,
   films: Films,
-  promoFilm: Film | undefined,
   favoriteFilms: Films,
-  review: Reviews,
+  isDataLoaded: boolean
+};
+
+export type FilmProcess = {
+  promoFilm: Film | undefined,
   isDataLoaded: boolean,
   film: Film | undefined,
   similarFilms: Films
-};
+}
 
-export type FilmsProcess = {
-  genre: string,
-  filmsCount: number,
-  genresFilm: Film[],
-};
+export type ReviewProcess = {
+  review: Reviews,
+  isDataLoaded: boolean,
+
+}
 
 export type State = ReturnType<typeof store.getState>;
 

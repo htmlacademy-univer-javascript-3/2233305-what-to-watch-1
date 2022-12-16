@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {getFilms} from "../../../store/films-data/selectors";
+import {getFilms} from "../../../store/films-process/selectors";
 import {changeGenre} from "../../../store/action";
 import {INITIAL_STATE_GENRE} from "../../../const";
 

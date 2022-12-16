@@ -8,9 +8,11 @@ import {useAppDispatch, useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
 import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
 import {useEffect} from "react";
-import {getFavoriteFilms, getFilm, getSimilarFilms} from "../../store/films-data/selectors";
+import {getFavoriteFilms} from "../../store/films-process/selectors";
 import {getAuthorizationStatus} from "../../store/user-process/selectors";
 import {AuthorizationStatus} from "../../const";
+import {getFilm, getLoadedDataStatusFilm, getSimilarFilms} from "../../store/film-process/selector";
+import Spinner from "../../components/spinner/spinner";
 
 function MoviePageScreen(): JSX.Element {
   const params = useParams();
@@ -19,12 +21,15 @@ function MoviePageScreen(): JSX.Element {
   const film = useAppSelector(getFilm)
   const authorizationStatus = useAppSelector(getAuthorizationStatus)
   const similarFilms = useAppSelector(getSimilarFilms)
+  const isLoadedFilm = useAppSelector(getLoadedDataStatusFilm)
   useEffect(() => {
     dispatch(fetchFilmAction(params.id));
     dispatch(fetchGetSimilarAction(params.id))
-  }, [params])
+  }, [params.id])
 
-  console.log(authorizationStatus)
+  if (isLoadedFilm)
+    return <Spinner/>
+
   if (film === undefined) {
     return (<NotFound/>);
   }
@@ -52,12 +57,12 @@ function MoviePageScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={`/player/${film.id}`} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>

@@ -1,30 +1,23 @@
-import {FilmsData} from "../../types/state";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {FilmsProcess} from "../../types/state";
+import {createSlice} from "@reduxjs/toolkit";
 import {
   fetchAllFilmsAction,
-  fetchFavoriteFilmsAction,
-  fetchFilmAction,
-  fetchGetSimilarAction,
-  fetchPromoFilmAction, fetchReviewAction
+  fetchFavoriteFilmsAction
 } from "../api-actions";
 import {INITIAL_STATE_FILM_COUNT, INITIAL_STATE_GENRE, NameSpace} from "../../const";
 import {changeGenre, resetCount, showMore} from "../action";
 
-const initialState: FilmsData = {
+const initialState: FilmsProcess = {
   filmsCount: INITIAL_STATE_FILM_COUNT,
   genre: INITIAL_STATE_GENRE,
   films: [],
   genresFilms: [],
-  promoFilm: undefined,
   favoriteFilms: [],
-  review: [],
-  isDataLoaded: false,
-  film: undefined,
-  similarFilms: []
+  isDataLoaded: false
 };
 
-export const filmsData = createSlice({
-  name: NameSpace.Data,
+export const filmsProcess = createSlice({
+  name: NameSpace.Films,
   initialState,
   reducers: {},
   extraReducers: function (builder) {
@@ -34,24 +27,17 @@ export const filmsData = createSlice({
       })
       .addCase(fetchAllFilmsAction.fulfilled, (state, action) => {
         state.films = action.payload
+        state.genresFilms = state.films
         state.isDataLoaded = false
       })
-      .addCase(fetchFilmAction.fulfilled, (state, action) => {
-        state.film = action.payload;
-      })
-      .addCase(fetchGetSimilarAction.fulfilled, (state, action) => {
-        state.similarFilms = action.payload;
-      })
-      .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
-        state.promoFilm = action.payload
+      .addCase(fetchFavoriteFilmsAction.pending, (state) => {
+        state.isDataLoaded = true
       })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
         state.favoriteFilms = action.payload
+        state.isDataLoaded = false
       })
-      .addCase(fetchReviewAction.fulfilled, (state, action) => {
-        state.review = action.payload
-      })
-      .addCase(changeGenre, (state, action: PayloadAction<string>) => {
+      .addCase(changeGenre, (state, action) => {
         state.genre = action.payload
         state.genresFilms = state.genre === INITIAL_STATE_GENRE ? state.films : state.films.filter((film) => film.genre === state.genre);
       })

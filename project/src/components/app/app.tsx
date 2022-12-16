@@ -9,15 +9,18 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-routes/private-route';
 import Spinner from "../spinner/spinner";
 import {useAppSelector} from "../../hooks";
-import {getLoadedDataStatus} from "../../store/films-data/selectors";
+import {getLoadedDataStatusFilms} from "../../store/films-process/selectors";
 import {getAuthorizationStatus} from "../../store/user-process/selectors";
 import {APIRoute, AuthorizationStatus} from "../../const";
+import {getLoadedDataStatusFilm} from "../../store/film-process/selector";
 
 
 function App(): JSX.Element {
-  const isDataLoaded = useAppSelector(getLoadedDataStatus);
+  const isDataLoadedFilm = useAppSelector(getLoadedDataStatusFilm);
+  const isDataLoadedFilms = useAppSelector(getLoadedDataStatusFilms)
   const authorizationStatus = useAppSelector(getAuthorizationStatus)
-  if (authorizationStatus === AuthorizationStatus.Unknown ||isDataLoaded) {
+  console.log(isDataLoadedFilm, isDataLoadedFilms)
+  if (authorizationStatus === AuthorizationStatus.Unknown || isDataLoadedFilms) {
     return (
       <Spinner/>
     );

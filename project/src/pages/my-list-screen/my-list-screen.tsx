@@ -3,7 +3,7 @@ import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
 import {useAppSelector} from "../../hooks";
 import User from "../../components/user/user";
-import {getFavoriteFilms} from "../../store/films-data/selectors";
+import {getFavoriteFilms} from "../../store/films-process/selectors";
 
 
 function MyListScreen(): JSX.Element {

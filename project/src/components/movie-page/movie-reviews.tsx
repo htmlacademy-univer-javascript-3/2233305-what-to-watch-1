@@ -1,8 +1,9 @@
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {useEffect} from "react";
 import {fetchReviewAction} from "../../store/api-actions";
-import {getFilm, getReviews} from "../../store/films-data/selectors";
 import NotFound from "../../pages/not-found/not-found";
+import {getFilm} from "../../store/film-process/selector";
+import {getReviews} from "../../store/review-process/selector";
 
 
 function MovieReviews(): JSX.Element {
@@ -14,7 +15,7 @@ function MovieReviews(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchReviewAction(film.id))
-  }, [film])
+  }, [film.id])
 
   const review = useAppSelector(getReviews);
   return (

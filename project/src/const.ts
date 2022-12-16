@@ -1,5 +1,7 @@
 export enum NameSpace {
-  Data = 'DATA',
+  Films = 'FILMS',
+  Film = 'FILM',
+  Review = 'REVIEW',
   User = 'USER',
 }
 

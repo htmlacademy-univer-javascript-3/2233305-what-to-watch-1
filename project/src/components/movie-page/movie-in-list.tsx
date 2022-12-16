@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {getFavoriteFilms} from "../../store/films-data/selectors";
+import {getFavoriteFilms} from "../../store/films-process/selectors";
 import {useEffect} from "react";
 import {fetchFavoriteFilmsAction} from "../../store/api-actions";
 

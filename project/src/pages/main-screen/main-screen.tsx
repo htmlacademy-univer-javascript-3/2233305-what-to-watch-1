@@ -5,17 +5,17 @@ import CatalogGenres from '../../components/main/catalog-genres/catalog-genres';
 import {Link, useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeGenre, resetCount, showMore} from '../../store/action';
+import {resetCount, showMore} from '../../store/action';
 import User from "../../components/user/user";
 import {
   getFavoriteFilms,
   getFilmsCount,
   getFilmsWithGenre,
-  getGenre,
-  getPromoFilm
-} from "../../store/films-data/selectors";
-import {APIRoute, INITIAL_STATE_GENRE} from "../../const";
+  getGenre
+} from "../../store/films-process/selectors";
+import {APIRoute} from "../../const";
 import NotFound from "../not-found/not-found";
+import {getPromoFilm} from "../../store/film-process/selector";
 
 
 function MainScreen(): JSX.Element {
@@ -23,7 +23,6 @@ function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(changeGenre(INITIAL_STATE_GENRE))
     dispatch(resetCount())
   }, [dispatch])
 
@@ -66,9 +65,9 @@ function MainScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${promoFilm.id}`} className="btn btn--play film-card__button" type="button"
-                >
+                <Link to={`/player/${promoFilm.id}`} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
+                    <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
