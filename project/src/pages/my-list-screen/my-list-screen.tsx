@@ -6,10 +6,12 @@ import User from '../../components/user/user';
 import {useEffect} from 'react';
 import {fetchFavoriteFilmsAction} from '../../store/api-actions';
 import {getFavoriteFilms} from '../../store/favorite-film-process/selectors';
+import {APIRoute} from '../../const';
+import {useNavigate} from 'react-router-dom';
 
 
 function MyListScreen(): JSX.Element {
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchFavoriteFilmsAction());
@@ -30,8 +32,10 @@ function MyListScreen(): JSX.Element {
 
         <div className="catalog__films-list">
           {favoriteFilms.map((film) => (
-            <FilmCard film={film} key={film.id}/>
-          ))}
+            <FilmCard key={film.id} film={film} onClick={() => {
+              navigate(`${APIRoute.Films}/${film.id}`);
+            }}
+            />))}
         </div>
       </section>
       <Footer/>
