@@ -1,31 +1,22 @@
 import {useState} from 'react';
-import {Film} from '../../types/types';
 import MovieOverview from '../movie-page/movie-overview';
 import MovieDetails from '../movie-page/movie-details';
 import MovieReviews from '../movie-page/movie-reviews';
+import {Tab} from "../../const";
 
-export enum Tab {
-  Overview = 'Overview',
-  Details = 'Details',
-  Reviews = 'Reviews',
-}
 
-function checkTab(tab: string, film: Film | null) {
+function checkTab(tab: string) {
   if (tab === Tab.Overview) {
-    return <MovieOverview film={film}/>;
+    return <MovieOverview/>;
   }
   if (tab === Tab.Details) {
-    return <MovieDetails film={film}/>;
+    return <MovieDetails/>;
   }
   if (tab === Tab.Reviews) {
     return <MovieReviews/>;
   }
 }
-type FilmProps = {
-  film: Film | null
-}
-
-function Tabs({film}: FilmProps): JSX.Element {
+function Tabs(): JSX.Element {
   const [currentTab, setCurrentTab] = useState(Tab.Overview);
   return (
     <div className="film-card__desc">
@@ -42,7 +33,7 @@ function Tabs({film}: FilmProps): JSX.Element {
           </li>
         </ul>
       </nav>
-      {checkTab(currentTab, film)}
+      {checkTab(currentTab)}
     </div>
   );
 }

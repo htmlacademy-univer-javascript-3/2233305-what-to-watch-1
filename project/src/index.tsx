@@ -6,27 +6,25 @@ import {store} from './store';
 import {
   checkAuthAction,
   fetchAllFilmsAction,
-  fetchFavoriteFilmsAction,
   fetchPromoFilmAction,
-  fetchReviewAction
 } from "./store/api-actions";
-import ErrorMessage from "./components/error-message/error-message";
+import browserHistory from "./browser-history";
+import HistoryRouter from "./components/history-route/history-route";
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchAllFilmsAction());
 store.dispatch(fetchPromoFilmAction());
-store.dispatch(fetchFavoriteFilmsAction());
-store.dispatch(fetchReviewAction());
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
+
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <ErrorMessage/>
+    <HistoryRouter history={browserHistory}>
       <App/>
-    </React.StrictMode>,
+    </HistoryRouter>
   </Provider>
 );

@@ -1,15 +1,18 @@
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import {AuthorizationStatus} from "../private-routes/private-route";
 import {Link} from "react-router-dom";
 import {logoutAction} from "../../store/api-actions";
+import {getAuthorizationStatus, getUser} from "../../store/user-process/selectors";
+import {APIRoute, AuthorizationStatus} from "../../const";
 
 function User(): JSX.Element {
-  const {authorizationStatus, user} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
+
   const dispatch = useAppDispatch();
   if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
       <div className="user-block">
-        <Link className="user-block__link" to={'/login'}>Sign in</Link>
+        <Link className="user-block__link" to={APIRoute.Login}>Sign in</Link>
       </div>
     );
   }

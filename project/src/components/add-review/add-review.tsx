@@ -1,7 +1,7 @@
 import {FormEvent, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {fetchAddReviewAction} from "../../store/api-actions";
-
+import {getFilm} from "../../store/film-process/selector";
 function AddReview(): JSX.Element {
   const dispatch = useAppDispatch();
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -9,7 +9,7 @@ function AddReview(): JSX.Element {
     dispatch(fetchAddReviewAction({comment: rating.reviewText, filmId: film?.id, rating: rating.ratingStars}))
   };
 
-  const {film} = useAppSelector((state) => state);
+  const film = useAppSelector(getFilm);
   const [rating, setRating] = useState({
     ratingStars: 8,
     reviewText: '',

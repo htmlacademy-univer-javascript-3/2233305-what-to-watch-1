@@ -5,10 +5,12 @@ import React, {ChangeEvent, SyntheticEvent, useEffect, useRef, useState} from "r
 import {fetchFilmAction} from "../../store/api-actions";
 import LoadingScreen from "../../components/spinner/spinner";
 
+import {getFilm} from "../../store/film-process/selector";
+
 function PlayerScreen(): JSX.Element {
-  const {film} = useAppSelector((state) => state);
-  const params = useParams();
+  const film = useAppSelector(getFilm);
   const navigate = useNavigate();
+  const params = useParams();
   const dispatch = useAppDispatch();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -29,7 +31,7 @@ function PlayerScreen(): JSX.Element {
    }
  }, [params.id])
 
-  if (film === null) {
+  if (film === undefined) {
     return <NotFound/>;
   }
 

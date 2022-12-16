@@ -6,31 +6,35 @@ import MoviePageScreen from '../../pages/movie-page-screen/movie-page-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import NotFound from '../../pages/not-found/not-found';
-import PrivateRoute, {AuthorizationStatus} from '../private-routes/private-route';
-import LoadingScreen from "../spinner/spinner";
+import PrivateRoute from '../private-routes/private-route';
+import Spinner from "../spinner/spinner";
 import {useAppSelector} from "../../hooks";
-import browserHistory from "../../browser-history";
-import HistoryRouter from "../history-route/history-route";
+import {getLoadedDataStatusFilms} from "../../store/films-process/selectors";
+import {getAuthorizationStatus} from "../../store/user-process/selectors";
+import {APIRoute, AuthorizationStatus} from "../../const";
+import {getLoadedDataStatusFilm} from "../../store/film-process/selector";
 
 
 function App(): JSX.Element {
-  const {isDataLoaded, authorizationStatus} = useAppSelector((state) => state);
-  if (authorizationStatus === AuthorizationStatus.Unknown ||isDataLoaded) {
+  const isDataLoadedFilm = useAppSelector(getLoadedDataStatusFilm);
+  const isDataLoadedFilms = useAppSelector(getLoadedDataStatusFilms)
+  const authorizationStatus = useAppSelector(getAuthorizationStatus)
+  console.log(isDataLoadedFilm, isDataLoadedFilms)
+  if (authorizationStatus === AuthorizationStatus.Unknown || isDataLoadedFilms) {
     return (
-      <LoadingScreen/>
+      <Spinner/>
     );
   }
   return (
-    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route index element={<MainScreen/>}/>
-        <Route path='/login' element={<SignInScreen/>}/>
-        <Route path='/films/:id' element={<MoviePageScreen/>}/>
-        <Route path='/films/:id/review' element={<AddReviewScreen/>}/>
-        <Route path='/player/:id' element={<PlayerScreen/>}/>
-        <Route path='notFound' element={<NotFound/>}/>
+        <Route path={APIRoute.Login} element={<SignInScreen/>}/>
+        <Route path={`${APIRoute.Films}/:id`} element={<MoviePageScreen/>}/>
+        <Route path={`${APIRoute.Films}/:id${APIRoute.Review}`} element={<AddReviewScreen/>}/>
+        <Route path={`${APIRoute.Player}/:id`} element={<PlayerScreen/>}/>
+        <Route path='*' element={<NotFound/>}/>
         <Route
-          path='/mylist'
+          path={APIRoute.MyList}
           element={
             <PrivateRoute>
               <MyListScreen/>
@@ -38,7 +42,6 @@ function App(): JSX.Element {
           }
         />
       </Routes>
-    </HistoryRouter>
   );
 }
 
