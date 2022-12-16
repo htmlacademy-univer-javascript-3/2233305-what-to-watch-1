@@ -8,12 +8,24 @@ function MovieOverview(): JSX.Element {
   if (film === undefined) {
     return <NotFound/>;
   }
+  const ratingFilm = () => {
+    if (film.rating >= 0 && film.rating < 3)
+    {return 'Bad';}
+    if (film.rating >= 3 && film.rating < 5)
+    {return 'Normal';}
+    if (film.rating >= 5 && film.rating < 8)
+    {return 'Good';}
+    if (film.rating >= 8 && film.rating < 10)
+    {return 'Very good';}
+    if (film.rating === 10)
+    {return 'Awesome';}
+  };
   return (
     <>
       <div className="film-rating">
         <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{'VR'}</span>
+          <span className="film-rating__level">{ratingFilm()}</span>
           <span className="film-rating__count">{`${film.scoresCount} ratings`}</span>
         </p>
       </div>
