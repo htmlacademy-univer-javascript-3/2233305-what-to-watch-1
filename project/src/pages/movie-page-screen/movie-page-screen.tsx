@@ -1,6 +1,6 @@
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import NotFound from '../not-found/not-found';
 import FilmCard from '../../components/main/film-card/film-card';
@@ -15,6 +15,7 @@ import Spinner from '../../components/spinner/spinner';
 import MovieInList from '../../components/movie-page/movie-in-list';
 
 function MoviePageScreen(): JSX.Element {
+  const navigate = useNavigate();
   const params = useParams();
   const dispatch = useAppDispatch();
   const film = useAppSelector(getFilm);
@@ -26,8 +27,9 @@ function MoviePageScreen(): JSX.Element {
     dispatch(fetchGetSimilarAction(params.id));
   }, [dispatch, params.id]);
 
-  if (isLoadedFilm)
-  {return <Spinner/>;}
+  if (isLoadedFilm) {
+    return <Spinner/>;
+  }
 
   if (film === undefined) {
     return (<NotFound/>);
@@ -88,9 +90,11 @@ function MoviePageScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
-            {
-              similarFilms.slice(0, 4).map((similarFilm) => <FilmCard key={similarFilm.id} film={similarFilm}/>)
-            }
+            {similarFilms.slice(0, 4).map((similarFilm) => (
+              <FilmCard key={similarFilm.id} film={similarFilm} onClick={() => {
+                navigate(`${APIRoute.Films}/${similarFilm.id}`);
+              }}
+              />))}
           </div>
         </section>
         <Footer/>

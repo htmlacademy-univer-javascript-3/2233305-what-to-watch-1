@@ -27,7 +27,13 @@ function App(): JSX.Element {
       <Route index element={<MainScreen/>}/>
       <Route path={APIRoute.Login} element={<SignInScreen/>}/>
       <Route path={`${APIRoute.Films}/:id`} element={<MoviePageScreen/>}/>
-      <Route path={`${APIRoute.Films}/:id${APIRoute.Review}`} element={<AddReviewScreen/>}/>
+      <Route path={`${APIRoute.Films}/:id${APIRoute.Review}`}
+        element={
+          <PrivateRoute>
+            <AddReviewScreen/>
+          </PrivateRoute>
+        }
+      />
       <Route path={`${APIRoute.Player}/:id`} element={<PlayerScreen/>}/>
       <Route path='*' element={<NotFound/>}/>
       <Route

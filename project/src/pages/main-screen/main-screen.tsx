@@ -90,7 +90,8 @@ function MainScreen(): JSX.Element {
               />))}
           </div>
           <div className="catalog__more">
-            <button className="catalog__button" type="button" onClick={() => dispatch(showMore())}>Show more</button>
+            {filmsCount <= genresFilm.length &&
+              <button className="catalog__button" type="button" onClick={() => dispatch(showMore())}>Show more</button>}
           </div>
         </section>
         <Footer/>
