@@ -7,9 +7,10 @@ import {
   fetchPromoFilmAction
 } from '../api-actions';
 import {NameSpace} from '../../const';
+import {Film} from '../../types/types';
 
 const initialState: FilmProcess = {
-  promoFilm: undefined,
+  promoFilm: {} as Film,
   isDataLoaded: false,
   film: undefined,
   similarFilms: []

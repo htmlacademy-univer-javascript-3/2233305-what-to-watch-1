@@ -6,6 +6,6 @@ export const getLoadedDataStatusFilm = (state: State): boolean => state[NameSpac
 
 export const getFilm = (state: State): Film | undefined => state[NameSpace.Film].film;
 
-export const getPromoFilm = (state: State): Film | undefined => state[NameSpace.Film].promoFilm;
+export const getPromoFilm = (state: State): Film => state[NameSpace.Film].promoFilm;
 
 export const getSimilarFilms = (state: State): Films => state[NameSpace.Film].similarFilms;

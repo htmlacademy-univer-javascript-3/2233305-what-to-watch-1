@@ -8,7 +8,6 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {resetCount, showMore} from '../../store/action';
 import User from '../../components/user/user';
 import {getFilmsCount, getFilmsWithGenre, getGenre} from '../../store/films-process/selectors';
-import NotFound from '../not-found/not-found';
 import {getPromoFilm} from '../../store/film-process/selector';
 import MovieInList from '../../components/movie-page/movie-in-list';
 import {APIRoute} from '../../const';
@@ -28,10 +27,6 @@ function MainScreen(): JSX.Element {
   const genre = useAppSelector(getGenre);
   const filmsCount = useAppSelector(getFilmsCount);
   const genresFilm = useAppSelector(getFilmsWithGenre);
-
-  if (promoFilm === undefined) {
-    return <NotFound/>;
-  }
 
   return (
     <>

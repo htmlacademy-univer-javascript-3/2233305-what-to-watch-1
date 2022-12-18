@@ -5,7 +5,6 @@ import {NameSpace} from '../../const';
 
 const initialState: FavoriteFilmProcess = {
   favoriteFilms: [],
-  currentFilm: undefined,
   isDataLoaded: false
 };
 

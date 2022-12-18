@@ -16,13 +16,12 @@ export type FilmsProcess = {
 };
 export type FavoriteFilmProcess = {
 
-  currentFilm: Film | undefined
   favoriteFilms: Films,
   isDataLoaded: boolean
 };
 
 export type FilmProcess = {
-  promoFilm: Film | undefined,
+  promoFilm: Film,
   isDataLoaded: boolean,
   film: Film | undefined,
   similarFilms: Films

@@ -5,19 +5,23 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import User from '../../components/user/user';
 import {useEffect} from 'react';
 import {fetchFavoriteFilmsAction} from '../../store/api-actions';
-import {getFavoriteFilms} from '../../store/favorite-film-process/selectors';
+import {getFavoriteFilms, getLoadedDataStatusFavorite} from '../../store/favorite-film-process/selectors';
 import {APIRoute} from '../../const';
 import {useNavigate} from 'react-router-dom';
+import Spinner from '../../components/spinner/spinner';
 
 
 function MyListScreen(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isLoaded = useAppSelector(getLoadedDataStatusFavorite);
   useEffect(() => {
     dispatch(fetchFavoriteFilmsAction());
   }, [dispatch]);
 
   const favoriteFilms = useAppSelector(getFavoriteFilms);
+  if (isLoaded)
+  {return <Spinner/>;}
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

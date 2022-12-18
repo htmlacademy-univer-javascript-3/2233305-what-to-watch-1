@@ -18,11 +18,26 @@ function MovieReviews(): JSX.Element {
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {review.map((reviews) => (
+        {review.slice(0, review.length / 2).map((reviews) => (
           <div className="review" key={reviews.id}>
             <blockquote className="review__quote">
-              <p className="review__text">{reviews.comment}
-              </p>
+              <p className="review__text">{reviews.comment}</p>
+
+              <footer className="review__details">
+                <cite className="review__author">{reviews.user.name}</cite>
+                <time className="review__date" dateTime={reviews.date}>{new Date(reviews.date).toLocaleDateString('en-us', {year:'numeric', month:'long', day:'numeric'})}</time>
+              </footer>
+            </blockquote>
+
+            <div className="review__rating">{reviews.rating}</div>
+          </div>
+        ))}
+      </div>
+      <div className="film-card__reviews-col">
+        {review.slice(review.length / 2 + 1, review.length).map((reviews) => (
+          <div className="review" key={reviews.id}>
+            <blockquote className="review__quote">
+              <p className="review__text">{reviews.comment}</p>
 
               <footer className="review__details">
                 <cite className="review__author">{reviews.user.name}</cite>

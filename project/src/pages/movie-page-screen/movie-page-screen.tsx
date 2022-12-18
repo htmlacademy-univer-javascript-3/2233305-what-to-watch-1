@@ -65,10 +65,10 @@ function MoviePageScreen(): JSX.Element {
                   <span>Play</span>
                 </Link>
                 <MovieInList film={film}/>
-                {authorizationStatus === AuthorizationStatus.Auth ?
+                {authorizationStatus === AuthorizationStatus.Auth &&
                   <Link to={`${APIRoute.Films}/${film.id}${APIRoute.Review}`} className="btn film-card__button">Add
                     review
-                  </Link> : null}
+                  </Link>}
               </div>
             </div>
           </div>

@@ -1,21 +1,29 @@
 import Logo from '../../components/logo/logo';
 import AddReview from '../../components/add-review/add-review';
-import {Link} from 'react-router-dom';
-import {useAppSelector} from '../../hooks';
+import {Link, useParams} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import User from '../../components/user/user';
 import NotFound from '../not-found/not-found';
 import {getFilm} from '../../store/film-process/selector';
 import {APIRoute} from '../../const';
+import {useEffect} from 'react';
+import {fetchFilmAction} from '../../store/api-actions';
 
 function AddReviewScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
-  if (film === undefined)
-  {return <NotFound/>;}
+  const params = useParams();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchFilmAction(params.id));
+  }, [dispatch, params.id]);
+  if (film === undefined) {
+    return <NotFound/>;
+  }
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.posterImage} alt={film.name}/>
+          <img src={film.backgroundImage} alt={film.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -28,7 +36,7 @@ function AddReviewScreen(): JSX.Element {
                 <Link to={`${APIRoute.Films}/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <div className="breadcrumbs__link">Add review</div>
               </li>
             </ul>
           </nav>

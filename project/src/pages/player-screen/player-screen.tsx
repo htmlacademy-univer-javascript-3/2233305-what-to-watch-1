@@ -1,11 +1,11 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import NotFound from '../not-found/not-found';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import React, {useEffect, useRef, useState} from 'react';
 import {fetchFilmAction} from '../../store/api-actions';
-import LoadingScreen from '../../components/spinner/spinner';
 
 import {getFilm} from '../../store/film-process/selector';
+import Spinner from '../../components/spinner/spinner';
+import {APIRoute} from '../../const';
 
 function PlayerScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
@@ -31,11 +31,6 @@ function PlayerScreen(): JSX.Element {
       videoRef.current.load();
     }
   }, [dispatch, isPlaying, params.id]);
-
-  if (film === undefined) {
-    return <NotFound/>;
-  }
-
 
   const handleIsPlayClick = () => {
     if (videoRef.current?.paused) {
@@ -85,8 +80,8 @@ function PlayerScreen(): JSX.Element {
         onTimeUpdate={(event) => handleProgressBar(event)}
       />
 
-      {isLoading && <LoadingScreen/>}
-      <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
+      {isLoading && <Spinner/>}
+      <button type="button" className="player__exit" onClick={() => navigate(`${APIRoute.Films}/${film?.id}`)}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
