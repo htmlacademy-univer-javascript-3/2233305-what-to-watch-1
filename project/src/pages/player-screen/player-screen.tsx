@@ -30,7 +30,7 @@ function PlayerScreen(): JSX.Element {
     if (!isPlaying) {
       videoRef.current.load();
     }
-  }, [params.id]);
+  }, [dispatch, isPlaying, params.id]);
 
   if (film === undefined) {
     return <NotFound/>;
@@ -79,7 +79,7 @@ function PlayerScreen(): JSX.Element {
       <video
         src={film?.videoLink}
         className="player__video"
-        poster={film?.posterImage}
+        poster={film?.backgroundImage}
         ref={videoRef}
         onDoubleClick={handleFullScreenVideo}
         onTimeUpdate={(event) => handleProgressBar(event)}
@@ -100,7 +100,9 @@ function PlayerScreen(): JSX.Element {
         <div className="player__controls-row">
           <button type="button" className="player__play" onClick={handleIsPlayClick}>
             <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"/>
+              { !isPlaying ?
+                <use xlinkHref="#play-s"/> :
+                <use xlinkHref="#pause"/>}
             </svg>
             <span>Play</span>
           </button>

@@ -45,3 +45,8 @@ export type AuthData = {
 export type Films = Film[]
 
 export type Reviews = Review[]
+
+
+export type Error = {
+  error: string
+}

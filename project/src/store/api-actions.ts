@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.js';
-import {AuthData, Film, Films, Review, Reviews, UserData} from '../types/types';
+import {AuthData, Film, Films, Reviews, UserData} from '../types/types';
 import {redirectToRoute,} from './action';
 import {dropToken, saveToken} from '../services/token';
 import {APIRoute} from '../const';
@@ -84,15 +84,16 @@ export const fetchReviewAction = createAsyncThunk<Reviews, number | undefined, {
   },
 );
 
-export const fetchAddReviewAction = createAsyncThunk<void, { filmId: number | undefined, comment: string, rating: number }, {
+export const fetchAddReviewAction = createAsyncThunk<Reviews | Error, { filmId: number | undefined, comment: string, rating: number }, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'data/fetchAddReview',
   async ({filmId, comment, rating}, {dispatch, extra: api}) => {
-    await api.post<Review>(`${APIRoute.Comments}/${filmId}`, {comment, rating});
+    const {data} = await api.post<Reviews | Error>(`${APIRoute.Comments}/${filmId}`, {comment, rating});
     dispatch(redirectToRoute(`${APIRoute.Films}/${filmId}`));
+    return data;
   },
 );
 

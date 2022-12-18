@@ -1,11 +1,12 @@
 import {ReviewProcess} from '../../types/state';
 import {createSlice} from '@reduxjs/toolkit';
-import {fetchReviewAction} from '../api-actions';
+import {fetchAddReviewAction, fetchReviewAction} from '../api-actions';
 import {NameSpace} from '../../const';
 
 const initialState: ReviewProcess = {
   review: [],
   isDataLoaded: false,
+  error : undefined
 };
 
 export const reviewProcess = createSlice({
@@ -20,6 +21,9 @@ export const reviewProcess = createSlice({
       .addCase(fetchReviewAction.fulfilled, (state, action) => {
         state.review = action.payload;
         state.isDataLoaded = false;
+      })
+      .addCase(fetchAddReviewAction.rejected, (state, action) => {
+        state.error = action.error.message;
       });
   }
 });

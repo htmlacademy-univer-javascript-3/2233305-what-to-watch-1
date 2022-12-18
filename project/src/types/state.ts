@@ -29,6 +29,7 @@ export type FilmProcess = {
 }
 
 export type ReviewProcess = {
+  error : string | undefined
   review: Reviews,
   isDataLoaded: boolean,
 
