@@ -27,10 +27,7 @@ function PlayerScreen(): JSX.Element {
 
     videoRef.current?.addEventListener('loadeddata', () => setIsLoading(false));
 
-    if (!isPlaying) {
-      videoRef.current.load();
-    }
-  }, [dispatch, isPlaying, params.id]);
+  }, [dispatch, params.id]);
 
   const handleIsPlayClick = () => {
     if (videoRef.current?.paused) {
