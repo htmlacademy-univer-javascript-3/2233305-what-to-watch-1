@@ -1,33 +1,35 @@
 import Footer from '../../components/footer/footer';
 import Logo from '../../components/logo/logo';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import Tabs from '../../components/tabs/tabs';
 import NotFound from '../not-found/not-found';
 import FilmCard from '../../components/main/film-card/film-card';
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import User from "../../components/user/user";
-import {fetchFilmAction, fetchGetSimilarAction} from "../../store/api-actions";
-import {useEffect} from "react";
-import {getAuthorizationStatus} from "../../store/user-process/selectors";
-import {AuthorizationStatus} from "../../const";
-import {getFilm, getLoadedDataStatusFilm, getSimilarFilms} from "../../store/film-process/selector";
-import Spinner from "../../components/spinner/spinner";
-import MovieInList from "../../components/movie-page/movie-in-list";
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import User from '../../components/user/user';
+import {fetchFilmAction, fetchGetSimilarAction} from '../../store/api-actions';
+import {useEffect} from 'react';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {APIRoute, AuthorizationStatus, SIMILAR_FILMS_COUNT} from '../../const';
+import {getFilm, getLoadedDataStatusFilm, getSimilarFilms} from '../../store/film-process/selector';
+import Spinner from '../../components/spinner/spinner';
+import MovieInList from '../../components/movie-page/movie-in-list';
 
 function MoviePageScreen(): JSX.Element {
+  const navigate = useNavigate();
   const params = useParams();
   const dispatch = useAppDispatch();
-  const film = useAppSelector(getFilm)
-  const authorizationStatus = useAppSelector(getAuthorizationStatus)
-  const similarFilms = useAppSelector(getSimilarFilms)
-  const isLoadedFilm = useAppSelector(getLoadedDataStatusFilm)
+  const film = useAppSelector(getFilm);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const isLoadedFilm = useAppSelector(getLoadedDataStatusFilm);
   useEffect(() => {
     dispatch(fetchFilmAction(params.id));
-    dispatch(fetchGetSimilarAction(params.id))
-  }, [params.id])
+    dispatch(fetchGetSimilarAction(params.id));
+  }, [dispatch, params.id]);
 
-  if (isLoadedFilm)
-    return <Spinner/>
+  if (isLoadedFilm) {
+    return <Spinner/>;
+  }
 
   if (film === undefined) {
     return (<NotFound/>);
@@ -56,15 +58,17 @@ function MoviePageScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${film.id}`} className="btn btn--play film-card__button" type="button">
+                <Link to={`${APIRoute.Player}/${film.id}`} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-               <MovieInList film={film}/>
-                {authorizationStatus === AuthorizationStatus.Auth ?
-                  <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link> : null}
+                <MovieInList film={film}/>
+                {authorizationStatus === AuthorizationStatus.Auth &&
+                  <Link to={`${APIRoute.Films}/${film.id}${APIRoute.Review}`} className="btn film-card__button">Add
+                    review
+                  </Link>}
               </div>
             </div>
           </div>
@@ -74,7 +78,7 @@ function MoviePageScreen(): JSX.Element {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name}
-                   width="218" height="327"
+                width="218" height="327"
               />
             </div>
             <Tabs/>
@@ -86,9 +90,11 @@ function MoviePageScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
-            {
-              similarFilms.slice(0, 4).map((film) => <FilmCard key={film.id} film={film}/>)
-            }
+            {similarFilms.slice(0, SIMILAR_FILMS_COUNT).map((similarFilm) => (
+              <FilmCard key={similarFilm.id} film={similarFilm} onClick={() => {
+                navigate(`${APIRoute.Films}/${similarFilm.id}`);
+              }}
+              />))}
           </div>
         </section>
         <Footer/>

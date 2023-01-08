@@ -1,41 +1,32 @@
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {useEffect} from "react";
-import {fetchReviewAction} from "../../store/api-actions";
-import NotFound from "../../pages/not-found/not-found";
-import {getFilm} from "../../store/film-process/selector";
-import {getReviews} from "../../store/review-process/selector";
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useEffect} from 'react';
+import {fetchReviewAction} from '../../store/api-actions';
+import NotFound from '../../pages/not-found/not-found';
+import {getFilm} from '../../store/film-process/selector';
+import {getLoadedDataStatusReview, getReviews} from '../../store/review-process/selector';
+import Spinner from '../spinner/spinner';
+import MovieReviewColumn from './movie-review-column';
 
 
 function MovieReviews(): JSX.Element {
   const film = useAppSelector(getFilm);
   const dispatch = useAppDispatch();
-
-  if (film === undefined)
-    return <NotFound/>
-
+  const isLoading = useAppSelector(getLoadedDataStatusReview);
   useEffect(() => {
-    dispatch(fetchReviewAction(film.id))
-  }, [film.id])
-
-  const review = useAppSelector(getReviews);
+    dispatch(fetchReviewAction(film?.id));
+  }, [dispatch, film?.id]);
+  const reviews = useAppSelector(getReviews);
+  if (isLoading)
+  {return <Spinner/>;}
+  if (film === undefined)
+  {return <NotFound/>;}
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {review.map((reviews) => (
-          <div className="review" key={reviews.id}>
-            <blockquote className="review__quote">
-              <p className="review__text">{reviews.comment}
-              </p>
-
-              <footer className="review__details">
-                <cite className="review__author">{reviews.user.name}</cite>
-                <time className="review__date" dateTime={reviews.date}>{reviews.date}</time>
-              </footer>
-            </blockquote>
-
-            <div className="review__rating">{reviews.rating}</div>
-          </div>
-        ))}
+        {reviews.slice(0, reviews.length / 2).map((review) => <MovieReviewColumn review={review} key={review.id}/>)}
+      </div>
+      <div className="film-card__reviews-col">
+        {reviews.slice(reviews.length / 2 + 1, reviews.length).map((review) => <MovieReviewColumn review={review} key={review.id}/>)}
       </div>
     </div>
   );

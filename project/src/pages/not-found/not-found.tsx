@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import {APIRoute} from '../../const';
 
 function NotFound(): JSX.Element {
   return (
@@ -7,7 +8,7 @@ function NotFound(): JSX.Element {
         <br/>
         <small>Page not found</small>
       </h1>
-      <Link to="/">Go to main page </Link>
+      <Link to={APIRoute.Default}>Go to main page </Link>
     </>
   );
 }

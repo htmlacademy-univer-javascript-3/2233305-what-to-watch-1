@@ -10,5 +10,3 @@ export const showMore = createAction('films/showMoreFilms');
 export const resetCount = createAction('films/resetCount');
 
 
-
-

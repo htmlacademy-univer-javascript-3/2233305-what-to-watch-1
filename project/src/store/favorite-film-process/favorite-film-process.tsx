@@ -1,13 +1,10 @@
-import {FavoriteFilmProcess} from "../../types/state";
-import {createSlice} from "@reduxjs/toolkit";
-import {
-  fetchFavoriteFilmsAction
-} from "../api-actions";
-import {NameSpace} from "../../const";
+import {FavoriteFilmProcess} from '../../types/state';
+import {createSlice} from '@reduxjs/toolkit';
+import {fetchFavoriteFilmsAction} from '../api-actions';
+import {NameSpace} from '../../const';
 
 const initialState: FavoriteFilmProcess = {
   favoriteFilms: [],
-  currentFilm : undefined,
   isDataLoaded: false
 };
 
@@ -18,11 +15,11 @@ export const favoriteFilmProcess = createSlice({
   extraReducers: function (builder) {
     builder
       .addCase(fetchFavoriteFilmsAction.pending, (state) => {
-        state.isDataLoaded = true
+        state.isDataLoaded = true;
       })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
-        state.favoriteFilms = action.payload
-        state.isDataLoaded = false
-      })
+        state.favoriteFilms = action.payload;
+        state.isDataLoaded = false;
+      });
   }
 });

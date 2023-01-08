@@ -1,28 +1,33 @@
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 import FilmCard from '../../components/main/film-card/film-card';
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import User from "../../components/user/user";
-import {useEffect} from "react";
-import {fetchFavoriteFilmsAction} from "../../store/api-actions";
-import {getFavoriteFilms} from "../../store/favorite-film-process/selectors";
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import User from '../../components/user/user';
+import {useEffect} from 'react';
+import {fetchFavoriteFilmsAction} from '../../store/api-actions';
+import {getFavoriteFilms, getLoadedDataStatusFavoriteFilm} from '../../store/favorite-film-process/selectors';
+import {APIRoute} from '../../const';
+import {useNavigate} from 'react-router-dom';
+import Spinner from '../../components/spinner/spinner';
 
 
 function MyListScreen(): JSX.Element {
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isLoaded = useAppSelector(getLoadedDataStatusFavoriteFilm);
   useEffect(() => {
-    dispatch(fetchFavoriteFilmsAction())
-  }, [dispatch])
+    dispatch(fetchFavoriteFilmsAction());
+  }, [dispatch]);
 
   const favoriteFilms = useAppSelector(getFavoriteFilms);
+  if (isLoaded)
+  {return <Spinner/>;}
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <Logo/>
-
-        <h1 className="page-title user-page__title">My list <span
-          className="user-page__film-count">{favoriteFilms.length}</span></h1>
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{favoriteFilms.length}</span>
+        </h1>
         <User/>
       </header>
 
@@ -31,8 +36,10 @@ function MyListScreen(): JSX.Element {
 
         <div className="catalog__films-list">
           {favoriteFilms.map((film) => (
-              <FilmCard film={film}/>
-          ))}
+            <FilmCard key={film.id} film={film} onClick={() => {
+              navigate(`${APIRoute.Films}/${film.id}`);
+            }}
+            />))}
         </div>
       </section>
       <Footer/>

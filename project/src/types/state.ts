@@ -1,6 +1,6 @@
-import {AuthorizationStatus} from "../const";
-import {store} from "../store";
-import {Film, Films, Reviews, UserData} from "./types";
+import {AuthorizationStatus} from '../const';
+import {store} from '../store';
+import {Film, Films, Reviews, UserData} from './types';
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
@@ -8,27 +8,27 @@ export type UserProcess = {
 };
 
 export type FilmsProcess = {
-  filmsCount : number,
-  genre : string,
-  genresFilms : Films,
+  filmsCount: number,
+  genre: string,
+  genresFilms: Films,
   films: Films,
   isDataLoaded: boolean
 };
 export type FavoriteFilmProcess = {
 
-  currentFilm : Film | undefined
   favoriteFilms: Films,
   isDataLoaded: boolean
 };
 
 export type FilmProcess = {
-  promoFilm: Film | undefined,
+  promoFilm: Film,
   isDataLoaded: boolean,
   film: Film | undefined,
   similarFilms: Films
 }
 
 export type ReviewProcess = {
+  error : string | undefined
   review: Reviews,
   isDataLoaded: boolean,
 

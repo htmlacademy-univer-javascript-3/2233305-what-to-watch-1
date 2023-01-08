@@ -1,6 +1,8 @@
+import './spinner.css';
+
 function Spinner(): JSX.Element {
   return (
-    <p>Loading ...</p>
+    <div className="loader">Loading ...</div>
   );
 }
 

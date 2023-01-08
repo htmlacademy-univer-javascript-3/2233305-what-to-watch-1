@@ -1,6 +1,6 @@
-import {State} from "../../types/state";
-import {Films} from "../../types/types";
-import {NameSpace} from "../../const";
+import {State} from '../../types/state';
+import {Films} from '../../types/types';
+import {NameSpace} from '../../const';
 
 export const getFilms = (state: State): Films => state[NameSpace.Films].films;
 export const getFilmsCount = (state: State): number => state[NameSpace.Films].filmsCount;

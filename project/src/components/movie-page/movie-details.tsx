@@ -1,12 +1,12 @@
-import {useAppSelector} from "../../hooks";
-import NotFound from "../../pages/not-found/not-found";
-import {getFilm} from "../../store/film-process/selector";
+import {useAppSelector} from '../../hooks';
+import NotFound from '../../pages/not-found/not-found';
+import {getFilm} from '../../store/film-process/selector';
 
 function MovieDetails(): JSX.Element {
   const film = useAppSelector(getFilm);
 
   if (film === undefined)
-    return <NotFound/>
+  {return <NotFound/>;}
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -25,7 +25,7 @@ function MovieDetails(): JSX.Element {
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{film.runTime}</span>
+          <span className="film-card__details-value">{`${Math.floor(film.runTime / 60)}h ${film.runTime % 60}m`}</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

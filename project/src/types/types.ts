@@ -45,3 +45,9 @@ export type AuthData = {
 export type Films = Film[]
 
 export type Reviews = Review[]
+
+export type AddReviewType = {
+  comment: string
+  filmId: number | undefined
+  rating: number
+}

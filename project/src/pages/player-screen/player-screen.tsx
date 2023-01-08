@@ -1,11 +1,11 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import NotFound from '../not-found/not-found';
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import React, {useEffect, useRef, useState} from "react";
-import {fetchFilmAction} from "../../store/api-actions";
-import LoadingScreen from "../../components/spinner/spinner";
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import React, {useEffect, useRef, useState} from 'react';
+import {fetchFilmAction} from '../../store/api-actions';
 
-import {getFilm} from "../../store/film-process/selector";
+import {getFilm} from '../../store/film-process/selector';
+import Spinner from '../../components/spinner/spinner';
+import {APIRoute} from '../../const';
 
 function PlayerScreen(): JSX.Element {
   const film = useAppSelector(getFilm);
@@ -18,25 +18,18 @@ function PlayerScreen(): JSX.Element {
   const [progress, setProgress] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
 
- useEffect(() => {dispatch(fetchFilmAction(params.id))
+  useEffect(() => {
+    dispatch(fetchFilmAction(params.id));
 
-   if (videoRef.current === null) {
-     return;
-   }
+    if (videoRef.current === null) {
+      return;
+    }
 
-   videoRef.current?.addEventListener('loadeddata', () => setIsLoading(false));
+    videoRef.current?.addEventListener('loadeddata', () => setIsLoading(false));
 
-   if (!isPlaying) {
-     videoRef.current.load();
-   }
- }, [params.id])
+  }, [dispatch, params.id]);
 
-  if (film === undefined) {
-    return <NotFound/>;
-  }
-
-
-  const handleIsPlayClick = () => {
+  const handlePlayVideo = () => {
     if (videoRef.current?.paused) {
       videoRef.current?.play();
       setIsPlaying(true);
@@ -48,57 +41,60 @@ function PlayerScreen(): JSX.Element {
 
   const handleFullScreenVideo = () => {
     if (videoRef.current?.requestFullscreen) {
-      videoRef.current?.requestFullscreen()
+      videoRef.current?.requestFullscreen();
     }
-  }
+  };
 
   const handleProgressBar = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    // @ts-ignore
-    if (isNaN(e.target.duration))
+    const target = (e.target as HTMLVideoElement);
+    if (isNaN(target.duration)) {
       return;
-    // @ts-ignore
-    setProgress((e.target.currentTime / e.target.duration) * 100);
-    if (videoRef.current)
+    }
+    setProgress((target.currentTime / target.duration) * 100);
+    if (videoRef.current) {
       setTimeLeft(Math.trunc(videoRef.current.duration - videoRef.current.currentTime));
+    }
 
-  }
+  };
 
   const formatTime = (seconds: number) => {
     const date = new Date(seconds * 1000);
     let format = date.toISOString().slice(11, 19).toString();
-    if (format.startsWith('00')){
+    if (format.startsWith('00')) {
       format = format.substring(3);
     }
     return `-${format}`;
-  }
+  };
 
   return (
     <div className="player">
       <video
         src={film?.videoLink}
         className="player__video"
-        poster={film?.posterImage}
+        poster={film?.backgroundImage}
         ref={videoRef}
         onDoubleClick={handleFullScreenVideo}
         onTimeUpdate={(event) => handleProgressBar(event)}
       />
 
-      {isLoading && <LoadingScreen/>}
-      <button type="button" className="player__exit" onClick={() => navigate('/')}>Exit</button>
+      {isLoading && <Spinner/>}
+      <button type="button" className="player__exit" onClick={() => navigate(`${APIRoute.Films}/${film?.id}`)}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
             <progress className="player__progress" value={progress} max="100"/>
-            <div className="player__toggler" style={{ left: `${progress}%` }}>Toggler</div>
+            <div className="player__toggler" style={{left: `${progress}%`}}>Toggler</div>
           </div>
           <div className="player__time-value">{formatTime(timeLeft)}</div>
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play" onClick={handleIsPlayClick}>
+          <button type="button" className="player__play" onClick={handlePlayVideo}>
             <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"/>
+              { !isPlaying ?
+                <use xlinkHref="#play-s"/> :
+                <use xlinkHref="#pause"/>}
             </svg>
             <span>Play</span>
           </button>
