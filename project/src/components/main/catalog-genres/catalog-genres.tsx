@@ -14,11 +14,11 @@ function CatalogGenres(props: { genre: string }): JSX.Element {
         <li key={genre.length}
           className={`catalog__genres-item ${props.genre === genre ? 'catalog__genres-item--active' : ''}`}
         >
-          <a onClick={() => {
+          <div onClick={() => {
             dispatch(changeGenre(genre));
           }} className="catalog__genres-link"
           >{genre}
-          </a>
+          </div>
         </li>))}
     </ul>
   );

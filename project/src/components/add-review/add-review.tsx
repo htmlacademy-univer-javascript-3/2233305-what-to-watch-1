@@ -3,6 +3,12 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchAddReviewAction} from '../../store/api-actions';
 import {getFilm} from '../../store/film-process/selector';
 import {getError} from '../../store/review-process/selector';
+import {
+  INITIAL_STATE_FILM_RATING_STARS,
+  MAX_REVIEW_TEXT_LENGTH,
+  MAX_STARS_COUNT,
+  MIN_REVIEW_TEXT_LENGTH
+} from '../../const';
 
 function AddReview(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -17,7 +23,7 @@ function AddReview(): JSX.Element {
   const [canPost, setCanPost] = useState(false);
   const [isSend, setIsSend] = useState(false);
   const [rating, setRating] = useState({
-    ratingStars: 8,
+    ratingStars: INITIAL_STATE_FILM_RATING_STARS,
     reviewText: '',
   });
   return (
@@ -28,14 +34,14 @@ function AddReview(): JSX.Element {
           <div className="rating__stars">
             {[...Array(10)].map((_, index) => (
               <>
-                <input className="rating__input" id={`star-${10 - index}`} type="radio" disabled={isSend} name="rating"
+                <input className="rating__input" id={`star-${MAX_STARS_COUNT - index}`} type="radio" disabled={isSend} name="rating"
                   value={10 - index}
-                  checked={rating.ratingStars === (10 - index)} onChange={() => {
+                  checked={rating.ratingStars === (MAX_STARS_COUNT - index)} onChange={() => {
                     setRating(
-                      {...rating, ratingStars: (10 - index)});
+                      {...rating, ratingStars: (MAX_STARS_COUNT - index)});
                   }}
                 />
-                <label className="rating__label" htmlFor={`star-${10 - index}`}>Rating {10 - index}</label>
+                <label className="rating__label" htmlFor={`star-${MAX_STARS_COUNT - index}`}>Rating {MAX_STARS_COUNT - index}</label>
               </>
             ))}
           </div>
@@ -45,7 +51,7 @@ function AddReview(): JSX.Element {
             placeholder="Review text"
             onChange={(evt) => {
               setRating({...rating, reviewText: evt.target.value});
-              if (rating.reviewText.length >= 50 && rating.reviewText.length <= 400) {
+              if (rating.reviewText.length >= MIN_REVIEW_TEXT_LENGTH && rating.reviewText.length <= MAX_REVIEW_TEXT_LENGTH) {
                 setCanPost(true);
               } else {
                 setCanPost(false);

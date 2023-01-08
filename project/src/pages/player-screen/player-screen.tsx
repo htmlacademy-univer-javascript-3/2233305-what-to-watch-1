@@ -29,7 +29,7 @@ function PlayerScreen(): JSX.Element {
 
   }, [dispatch, params.id]);
 
-  const handleIsPlayClick = () => {
+  const handlePlayVideo = () => {
     if (videoRef.current?.paused) {
       videoRef.current?.play();
       setIsPlaying(true);
@@ -90,7 +90,7 @@ function PlayerScreen(): JSX.Element {
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play" onClick={handleIsPlayClick}>
+          <button type="button" className="player__play" onClick={handlePlayVideo}>
             <svg viewBox="0 0 19 19" width="19" height="19">
               { !isPlaying ?
                 <use xlinkHref="#play-s"/> :

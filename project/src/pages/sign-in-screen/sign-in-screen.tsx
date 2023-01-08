@@ -8,7 +8,6 @@ import {getAuthorizationStatus} from '../../store/user-process/selectors';
 import {APIRoute, AuthorizationStatus} from '../../const';
 import {Navigate} from 'react-router-dom';
 import Message from '../../components/sign-in/message';
-import Error from '../../components/sign-in/error';
 
 function SignInScreen(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -19,6 +18,20 @@ function SignInScreen(): JSX.Element {
   if (authorizationStatus === AuthorizationStatus.Auth) {
     return <Navigate to={APIRoute.Default}/>;
   }
+  const signInValidator = (data: { email: string, password: string }) => {
+    const isEmailValid = /^\S+@\S+\.\S+$/.test(data.email);
+    const isPasswordValid = /^(?=^[a-zA-Z0-9]{2,}$)(?=.*\d)(?=.*[a-zA-Z]).*$/.test(data.password);
+
+    if (!isPasswordValid) {
+      return 'We can’t recognize this email and password combination. Please try again.';
+    }
+
+    if (!isEmailValid) {
+      return 'Please enter a valid email address';
+    }
+
+    return null;
+  };
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
   };
@@ -46,7 +59,7 @@ function SignInScreen(): JSX.Element {
 
       <div className="sign-in user-page__content">
         <form className="sign-in__form" onSubmit={handleSubmit}>
-          {(errorMessage === '1' && <Message/>) || (errorMessage === '2' && <Error/>)}
+          {errorMessage !== null && <Message message={errorMessage}/>}
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input className="sign-in__input" ref={loginRef} type="email" placeholder="Email address"
@@ -74,20 +87,5 @@ function SignInScreen(): JSX.Element {
   );
 }
 
-
-export const signInValidator = (data: { email: string, password: string }) => {
-  const isEmailValid = /^\S+@\S+\.\S+$/.test(data.email);
-  const isPasswordValid = /^(?=^[a-zA-Z0-9]{2,}$)(?=.*\d)(?=.*[a-zA-Z]).*$/.test(data.password);
-
-  if (!isPasswordValid) {
-    return '1';
-  }
-
-  if (!isEmailValid) {
-    return '2';
-  }
-
-  return null;
-};
 
 export default SignInScreen;

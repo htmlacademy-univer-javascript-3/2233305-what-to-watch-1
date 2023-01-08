@@ -46,7 +46,8 @@ export type Films = Film[]
 
 export type Reviews = Review[]
 
-
-export type Error = {
-  error: string
+export type AddReviewType = {
+  comment: string
+  filmId: number | undefined
+  rating: number
 }

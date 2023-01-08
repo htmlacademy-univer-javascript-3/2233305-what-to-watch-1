@@ -9,7 +9,7 @@ import User from '../../components/user/user';
 import {fetchFilmAction, fetchGetSimilarAction} from '../../store/api-actions';
 import {useEffect} from 'react';
 import {getAuthorizationStatus} from '../../store/user-process/selectors';
-import {APIRoute, AuthorizationStatus} from '../../const';
+import {APIRoute, AuthorizationStatus, SIMILAR_FILMS_COUNT} from '../../const';
 import {getFilm, getLoadedDataStatusFilm, getSimilarFilms} from '../../store/film-process/selector';
 import Spinner from '../../components/spinner/spinner';
 import MovieInList from '../../components/movie-page/movie-in-list';
@@ -90,7 +90,7 @@ function MoviePageScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
           <div className="catalog__films-list">
-            {similarFilms.slice(0, 4).map((similarFilm) => (
+            {similarFilms.slice(0, SIMILAR_FILMS_COUNT).map((similarFilm) => (
               <FilmCard key={similarFilm.id} film={similarFilm} onClick={() => {
                 navigate(`${APIRoute.Films}/${similarFilm.id}`);
               }}
